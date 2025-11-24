@@ -2,214 +2,177 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Moodify - Advanced Music Player</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moodify Random Song Player</title>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Orbitron',sans-serif;color:white;min-height:100vh;background-size:cover;background-position:center;transition:background 0.8s ease-in-out;position:relative;}
-body::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,0.55);backdrop-filter:blur(5px);z-index:-1;}
-.splash{position:fixed;top:0;left:0;width:100%;height:100%;background:black;color:white;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;animation:fadeOut 2s 3s forwards;}
-.splash img{width:100px;height:100px;animation:pulse 2s infinite ease-in-out;}
-.splash h1{margin-top:15px;font-size:2.2em;letter-spacing:2px;animation:fadeIn 2s ease;color:#ff1475;}
-@keyframes fadeOut{to{opacity:0;visibility:hidden;}}
-@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-@keyframes pulse{0%{transform:scale(0.9);opacity:0.7;}50%{transform:scale(1);opacity:1;}100%{transform:scale(0.9);opacity:0.7;}}
-.player-container{width:92%;max-width:420px;margin:100px auto 20px;padding:35px 25px;border-radius:25px;background:rgba(255,255,255,0.12);backdrop-filter:blur(12px);box-shadow:0 15px 40px rgba(0,0,0,0.7);text-align:center;animation:floatUp 1s ease-out;position:relative;}
-@keyframes floatUp{from{transform:translateY(60px);opacity:0;}to{transform:translateY(0);opacity:1;}}
-.logo-top{position:absolute;top:-45px;left:15px;display:flex;align-items:center;gap:10px;}
-.logo-top img{width:45px;height:45px;filter:drop-shadow(0 0 8px #ff3399);}
-.logo-top span{color:#ff1475;font-weight:bold;font-size:1.2em;text-shadow:0 0 8px #ff1475;}
-#modeToggle{margin-left:auto;cursor:pointer;background:transparent;border:none;color:#ff1475;font-size:1.2em;transition:0.3s;}
-#modeToggle:hover{color:#ff4da6;}
-.album-poster{width:230px;height:230px;margin:10px auto 15px;border-radius:20px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,0.6);}
-#albumPosterWrapper.playing img{animation:rotatePoster 10s linear infinite;}
-@keyframes rotatePoster{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
-.album-poster img{width:100%;height:100%;object-fit:cover;}
-#songTitle{font-size:1.3em;margin-bottom:10px;}
-#visualizer{display:block;margin:15px auto;border-radius:10px;}
-.controls{display:flex;justify-content:space-between;margin:15px 0;flex-wrap:wrap;gap:8px;}
-.btn-custom{background:linear-gradient(45deg,#ff0077,#ff3399);border:none;padding:12px 25px;color:white;font-size:16px;border-radius:50px;cursor:pointer;transition:0.3s;box-shadow:0 0 10px #ff1475;}
-.btn-custom:hover{transform:scale(1.1);box-shadow:0 0 18px #ff4da6;}
-input[type=range]{width:100%;height:6px;border-radius:10px;background:rgba(255,255,255,0.3);appearance:none;outline:none;}
-input[type=range]::-webkit-slider-thumb{width:18px;height:18px;border-radius:50%;background:#ff1475;cursor:pointer;appearance:none;box-shadow:0 0 10px #ff4da6;}
-.timestamp{margin-top:12px;font-size:15px;letter-spacing:1px;color:#ffe7f4;text-shadow:0 0 5px #ff3399;}
-body.light-mode{background-color:#f2f2f2;color:#111;}
-body.light-mode .player-container{background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);}
-body.light-mode .btn-custom{color:#111;box-shadow:0 0 10px #aaa;}
-#playlist{list-style:none;margin-top:15px;text-align:left;padding-left:10px;}
-#playlist li{padding:8px;border-radius:8px;cursor:pointer;transition:0.3s;}
-#playlist li:hover{background:rgba(255,255,255,0.2);}
-#playlist li.active{background:rgba(255,20,100,0.5);}
+    body {
+        background: #0d0d0d;
+        background-size: cover;
+        background-position: center;
+        transition: 0.6s;
+        font-family: Arial, sans-serif;
+        color: white;
+        text-align: center;
+        padding: 20px;
+    }
+
+    h1 {
+        color: #ff0066;
+        margin-top: 10px;
+    }
+
+    #cameraFeed {
+        width: 300px;
+        height: 220px;
+        border: 2px solid #ff0066;
+        border-radius: 10px;
+        display: none;
+        margin-top: 20px;
+    }
+
+    .btn {
+        margin-top: 20px;
+        padding: 12px 25px;
+        border: none;
+        font-size: 18px;
+        border-radius: 50px;
+        background: #ff0066;
+        color: white;
+        cursor: pointer;
+    }
+    .btn:hover {
+        background: #ff3380;
+    }
+
+    #moodText {
+        font-size: 26px;
+        margin-top: 20px;
+        font-weight: bold;
+    }
+
+    #songName {
+        font-size: 22px;
+        margin-top: 10px;
+        color: #00ffcc;
+    }
+
+    #poster {
+        width: 200px;
+        height: 200px;
+        margin-top: 20px;
+        border-radius: 15px;
+        box-shadow: 0px 0px 20px #000;
+        display: none;
+    }
 </style>
 </head>
 <body>
 
-<!-- Splash Screen -->
-<div class="splash" id="splashScreen">
-  <img src="logo.png" alt="Moodify">
-  <h1>Moodify</h1>
-</div>
+<h1>Moodify – Mood Based Random Music Player</h1>
 
-<div class="player-container" id="playerFrame">
-  <div class="logo-top">
-    <img src="logo.png" alt="">
-    <span>Moodify</span>
-    <button id="modeToggle">🌙</button>
-  </div>
+<button class="btn" id="captureMood">Detect Mood (Camera)</button>
 
-  <div class="album-poster" id="albumPosterWrapper">
-    <img id="albumPoster" src="poster1.jpg">
-  </div>
+<video id="cameraFeed" autoplay></video>
 
-  <h3 id="songTitle">Song Name</h3>
-  <canvas id="visualizer" width="400" height="80"></canvas>
+<div id="moodText">Mood Not Detected</div>
 
-  <div class="controls">
-    <button class="btn-custom" id="prevBtn">⏮</button>
-    <button class="btn-custom" id="playBtn">▶️</button>
-    <button class="btn-custom" id="nextBtn">⏭</button>
-    <button class="btn-custom" id="shuffleBtn">🔀</button>
-    <button class="btn-custom" id="repeatBtn">🔁</button>
-    <button class="btn-custom" id="likeBtn">❤️</button>
-  </div>
+<img id="poster" src="">
 
-  <input type="range" id="seekBar" min="0" value="0">
-  <div class="timestamp" id="timeDisplay">00:00 / 00:00</div>
-  <input type="range" id="volumeBar" min="0" max="1" step="0.01" value="0.8">
+<div id="songName"></div>
 
-  <ul id="playlist"></ul>
-
-  <audio id="albumAudio"></audio>
-</div>
+<audio id="audioPlayer"></audio>
 
 <script>
-// Splash
-window.addEventListener('load',()=>{document.getElementById('splashScreen').style.display='none';loadSong(currentIndex);populatePlaylist();});
+/* Mood state switching */
+let moodToggle = 0;
 
-// Songs
-const songs = [
-  {title:"Song 1",audio:"song1.mp3",poster:"poster1.jpg",mood:"happy"},
-  {title:"Song 2",audio:"song2.mp3",poster:"poster2.jpg",mood:"chill"},
-  {title:"Song 3",audio:"song3.mp3",poster:"poster3.jpg",mood:"sad"}
+/* Songs for each mood */
+const normalSongs = [
+    { src: "song1.mp3", name: "Song 1", poster: "p1.jpg", bg: "bg1.jpg" },
+    { src: "song2.mp3", name: "Song 2", poster: "p2.jpg", bg: "bg2.jpg" },
+    { src: "song3.mp3", name: "Song 3", poster: "p3.jpg", bg: "bg3.jpg" },
+    { src: "song4.mp3", name: "Song 4", poster: "p4.jpg", bg: "bg4.jpg" }
 ];
-let currentIndex=0,isPlaying=false,shuffle=false,repeat=false,favorites=new Set();
 
-const audio=document.getElementById('albumAudio');
-const playBtn=document.getElementById('playBtn');
-const prevBtn=document.getElementById('prevBtn');
-const nextBtn=document.getElementById('nextBtn');
-const posterWrapper=document.getElementById('albumPosterWrapper');
-const songTitle=document.getElementById('songTitle');
-const visualizer=document.getElementById('visualizer');
-const modeToggle=document.getElementById('modeToggle');
-const volumeBar=document.getElementById('volumeBar');
-const seekBar=document.getElementById('seekBar');
-const timeDisplay=document.getElementById('timeDisplay');
-const shuffleBtn=document.getElementById('shuffleBtn');
-const repeatBtn=document.getElementById('repeatBtn');
-const likeBtn=document.getElementById('likeBtn');
-const playlistUL=document.getElementById('playlist');
+const happySongs = [
+    { src: "song5.mp3", name: "Song 5", poster: "p5.jpg", bg: "bg5.jpg" },
+    { src: "song6.mp3", name: "Song 6", poster: "p6.jpg", bg: "bg6.jpg" },
+    { src: "song7.mp3", name: "Song 7", poster: "p7.jpg", bg: "bg7.jpg" },
+    { src: "song8.mp3", name: "Song 8", poster: "p8.jpg", bg: "bg8.jpg" }
+];
 
-// Load Song
-function loadSong(index){
-  const song=songs[index];
-  audio.src=song.audio;
-  document.getElementById('albumPoster').src=song.poster;
-  songTitle.textContent=song.title;
-  posterWrapper.classList.add('playing');
-  // Mood backgrounds
-  if(song.mood==='happy')document.body.style.background='linear-gradient(to right,#ff7e5f,#feb47b)';
-  else if(song.mood==='chill')document.body.style.background='linear-gradient(to right,#00c6ff,#0072ff)';
-  else if(song.mood==='sad')document.body.style.background='linear-gradient(to right,#434343,#000000)';
-  updatePlaylistHighlight();
+const camera = document.getElementById("cameraFeed");
+const moodText = document.getElementById("moodText");
+const poster = document.getElementById("poster");
+const songName = document.getElementById("songName");
+const audioPlayer = document.getElementById("audioPlayer");
+const captureBtn = document.getElementById("captureMood");
+
+/* Start camera for 5 seconds */
+async function startCamera() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        camera.srcObject = stream;
+        camera.style.display = "block";
+
+        moodText.textContent = "Detecting Mood…";
+
+        // Stop camera after 5 sec
+        setTimeout(() => {
+            stopCamera();
+            detectMood();
+        }, 5000);
+
+    } catch (error) {
+        alert("Camera access denied!");
+    }
 }
 
-// Play/Pause
-playBtn.addEventListener('click',()=>{
-  if(!isPlaying){audio.play();playBtn.textContent='⏸';posterWrapper.classList.add('playing');}
-  else{audio.pause();playBtn.textContent='▶️';posterWrapper.classList.remove('playing');}
-  isPlaying=!isPlaying;
-});
-
-// Next/Prev
-nextBtn.addEventListener('click',nextSong);
-prevBtn.addEventListener('click',prevSong);
-
-function nextSong(){
-  if(shuffle)currentIndex=Math.floor(Math.random()*songs.length);
-  else currentIndex=(currentIndex+1)%songs.length;
-  loadSong(currentIndex);audio.play();playBtn.textContent='⏸';isPlaying=true;
-}
-function prevSong(){currentIndex=(currentIndex-1+songs.length)%songs.length;loadSong(currentIndex);audio.play();playBtn.textContent='⏸';isPlaying=true;}
-
-// Audio update
-audio.addEventListener('timeupdate',()=>{
-  seekBar.max=audio.duration;
-  seekBar.value=audio.currentTime;
-  timeDisplay.textContent=`${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
-});
-seekBar.addEventListener('input',()=>{audio.currentTime=seekBar.value;});
-audio.addEventListener('ended',()=>{
-  if(repeat){audio.currentTime=0;audio.play();}
-  else nextSong();
-});
-
-// Format time
-function formatTime(s){const m=Math.floor(s/60),sec=Math.floor(s%60);return`${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;}
-
-// Volume
-volumeBar.addEventListener('input',()=>{audio.volume=volumeBar.value;});
-
-// Shuffle & Repeat
-shuffleBtn.addEventListener('click',()=>{shuffle=!shuffle;shuffleBtn.style.background=shuffle?'#ff1475':'linear-gradient(45deg,#ff0077,#ff3399)';});
-repeatBtn.addEventListener('click',()=>{repeat=!repeat;repeatBtn.style.background=repeat?'#ff1475':'linear-gradient(45deg,#ff0077,#ff3399)';});
-
-// Favorites
-likeBtn.addEventListener('click',()=>{favorites.has(currentIndex)?favorites.delete(currentIndex):favorites.add(currentIndex);updateLikeButton();});
-function updateLikeButton(){likeBtn.style.background=favorites.has(currentIndex)?'#ff1475':'linear-gradient(45deg,#ff0077,#ff3399)';}
-
-// Light/Dark
-modeToggle.addEventListener('click',()=>{document.body.classList.toggle('light-mode');});
-
-// Playlist
-function populatePlaylist(){
-  playlistUL.innerHTML='';
-  songs.forEach((s,i)=>{
-    const li=document.createElement('li');li.textContent=s.title;
-    li.addEventListener('click',()=>{currentIndex=i;loadSong(i);audio.play();playBtn.textContent='⏸';isPlaying=true;});
-    playlistUL.appendChild(li);
-  });
-  updatePlaylistHighlight();
-}
-function updatePlaylistHighlight(){
-  Array.from(playlistUL.children).forEach((li,i)=>li.classList.toggle('active',i===currentIndex));
+/* Stop Camera */
+function stopCamera() {
+    let stream = camera.srcObject;
+    let tracks = stream.getTracks();
+    tracks.forEach(track => track.stop());
+    camera.style.display = "none";
 }
 
-// Visualizer
-const audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-const analyser=audioCtx.createAnalyser();
-const source=audioCtx.createMediaElementSource(audio);
-source.connect(analyser);analyser.connect(audioCtx.destination);
-analyser.fftSize=128;
-const bufferLength=analyser.frequencyBinCount;
-const dataArray=new Uint8Array(bufferLength);
-const ctx=visualizer.getContext('2d');
+/* Fake Mood Detection Based on Clicks */
+function detectMood() {
+    let mood = "";
 
-function drawVisualizer(){
-  requestAnimationFrame(drawVisualizer);
-  analyser.getByteFrequencyData(dataArray);
-  ctx.clearRect(0,0,visualizer.width,visualizer.height);
-  const barWidth=(visualizer.width/bufferLength)*2.5;let x=0;
-  for(let i=0;i<bufferLength;i++){
-    const barHeight=dataArray[i]/2;
-    ctx.fillStyle='#ff1475';
-    ctx.fillRect(x,visualizer.height-barHeight,barWidth,barHeight);
-    x+=barWidth+1;
-  }
+    if (moodToggle === 0) {
+        mood = "Normal";
+        playRandomSong(normalSongs);
+        moodToggle = 1;
+    } else {
+        mood = "Happy";
+        playRandomSong(happySongs);
+        moodToggle = 0;
+    }
+
+    moodText.textContent = "Mood: " + mood;
 }
-drawVisualizer();
+
+/* Play Random Song */
+function playRandomSong(list) {
+    const randomIndex = Math.floor(Math.random() * list.length);
+    const song = list[randomIndex];
+
+    audioPlayer.src = song.src;
+    audioPlayer.play();
+
+    poster.style.display = "block";
+    poster.src = song.poster;
+
+    document.body.style.backgroundImage = `url(${song.bg})`;
+
+    songName.textContent = "Playing: " + song.name;
+}
+
+/* Button click event */
+captureBtn.addEventListener("click", startCamera);
 </script>
+
 </body>
 </html>
