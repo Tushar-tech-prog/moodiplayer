@@ -3,676 +3,624 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Moodify — Glass Neon Player (No Pink)</title>
-
-<!-- Fonts -->
+<title>Moodify — Premium Neon Glass (Aqua)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Orbitron:wght@600&display=swap" rel="stylesheet">
-
 <style>
-  :root{
-    --bg-1: #071024;      /* deep navy */
-    --bg-2: #071a3a;      /* indigo-blue */
-    --glass: rgba(255,255,255,0.06);
-    --accent: #00e5ff;    /* cyan/aqua */
-    --accent-2: #7b6cff;  /* indigo accent */
-    --muted: rgba(255,255,255,0.7);
-    --card-radius: 18px;
-  }
+:root{
+  --bg-deep:#031024;
+  --bg-mid:#062238;
+  --glass: rgba(255,255,255,0.04);
+  --aqua: #00e5ff;            /* primary accent */
+  --indigo: #4b6bff;
+  --muted: rgba(235,245,255,0.85);
+  --card-radius:20px;
+  --glass-2: rgba(255,255,255,0.02);
+}
 
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
-  body{
-    background: radial-gradient(1200px 600px at 10% 10%, rgba(12,40,80,0.35), transparent),
-                radial-gradient(900px 500px at 90% 90%, rgba(40,10,80,0.25), transparent),
-                linear-gradient(180deg,var(--bg-1),var(--bg-2));
-    color: #eaf7ff;
-    -webkit-font-smoothing:antialiased;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    transition:background 0.7s ease;
-    overflow:hidden;
-  }
+/* Reset & base */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  min-height:100vh;
+  font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
+  background:
+    radial-gradient(900px 400px at 10% 20%, rgba(3,18,40,0.5), transparent),
+    radial-gradient(700px 300px at 90% 80%, rgba(10,22,40,0.35), transparent),
+    linear-gradient(180deg,var(--bg-deep),var(--bg-mid));
+  color:var(--muted);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  overflow:hidden;
+}
 
-  /* Animated waves in background (subtle) */
-  .bg-waves{
-    position:fixed; inset:0; pointer-events:none; z-index:0;
-    background:
-      radial-gradient(circle at 10% 20%, rgba(0,229,255,0.06), transparent 10%),
-      radial-gradient(circle at 90% 80%, rgba(123,108,255,0.05), transparent 12%);
-    mix-blend-mode:screen;
-    animation: drift 16s linear infinite;
-    filter: blur(30px) saturate(120%);
-  }
-  @keyframes drift{ 0%{transform:translateY(0)}50%{transform:translateY(12px)}100%{transform:translateY(0)}}
+/* animated subtle ambient lights */
+.ambient{
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(500px 300px at 80% 10%, rgba(0,229,255,0.06), transparent),
+    radial-gradient(500px 300px at 20% 90%, rgba(75,107,255,0.04), transparent);
+  filter: blur(40px) saturate(120%);
+  animation: ambientDrift 16s linear infinite;
+}
+@keyframes ambientDrift { 0%{transform:translateY(0)}50%{transform:translateY(14px)}100%{transform:translateY(0)} }
 
-  /* Layout */
-  .wrap{
-    max-width:980px;
-    width:100%;
-    display:grid;
-    grid-template-columns: 360px 1fr;
-    gap:28px;
-    z-index:2;
-  }
+/* container */
+.container{
+  width:100%;
+  max-width:980px;
+  display:grid;
+  grid-template-columns: 420px 1fr;
+  gap:26px;
+  z-index:2;
+}
+@media (max-width:900px){
+  .container{ grid-template-columns: 1fr; padding-bottom:50px; gap:18px}
+}
 
-  /* Responsive stacks on small screens */
-  @media (max-width:880px){
-    .wrap{ grid-template-columns: 1fr; padding-bottom:60px }
-  }
+/* left card */
+.card{
+  background: linear-gradient(180deg,var(--glass),var(--glass-2));
+  border-radius:var(--card-radius);
+  padding:18px;
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 10px 40px rgba(2,6,18,0.6);
+  backdrop-filter: blur(10px) saturate(110%);
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  position:relative;
+}
 
-  /* LEFT: player card */
-  .card{
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-    border-radius:var(--card-radius);
-    border:1px solid rgba(255,255,255,0.06);
-    padding:18px;
-    box-shadow: 0 10px 40px rgba(3,8,20,0.6), 0 0 40px rgba(0,229,255,0.02);
-    backdrop-filter: blur(10px) saturate(120%);
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-    position:relative;
-    overflow:hidden;
-  }
+/* header */
+.header{
+  display:flex; align-items:center; gap:12px;
+}
+.logo{
+  width:54px;height:54px;border-radius:12px;
+  background: linear-gradient(135deg,var(--aqua),var(--indigo));
+  display:flex;align-items:center;justify-content:center;color:#001627;font-weight:800;font-family:Orbitron;font-size:20px;
+  box-shadow: 0 8px 26px rgba(0,229,255,0.06);
+}
+.appname{ font-weight:700; font-size:18px; color:var(--muted) }
 
-  .brand{
-    display:flex;
-    gap:12px;
-    align-items:center;
-  }
-  .brand .logo{
-    width:46px; height:46px; border-radius:10px;
-    background:linear-gradient(135deg,var(--accent),var(--accent-2));
-    display:flex; align-items:center; justify-content:center;
-    color:#012; font-weight:700; font-family:Orbitron; font-size:18px;
-    box-shadow: 0 6px 22px rgba(0,229,255,0.06), inset 0 -6px 20px rgba(0,0,0,0.25);
-  }
-  .brand h1{ font-size:18px; margin:0; color:var(--muted); font-weight:600; letter-spacing:0.6px }
+/* 3D poster area */
+.poster-wrap{ perspective:1200px; display:flex; justify-content:center; margin-top:6px }
+.poster{
+  width:320px; height:320px; border-radius:16px; position:relative;
+  transform-style:preserve-3d; transition:transform .6s cubic-bezier(.2,.9,.1,1);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.03);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  overflow:hidden;
+}
+.poster img{ width:100%; height:100%; object-fit:cover; display:block; }
 
-  /* 3D poster */
-  .poster-wrap{
-    perspective: 1200px;
-    display:flex;
-    justify-content:center;
-    margin-top:6px;
-  }
-  .poster{
-    width:260px; height:260px; border-radius:14px;
-    background:#0b1220; overflow:hidden;
-    box-shadow: 0 18px 40px rgba(5,10,30,0.6), 0 0 40px rgba(123,108,255,0.06);
-    transform-style:preserve-3d;
-    transition: transform 0.6s cubic-bezier(.2,.9,.1,1);
-    display:flex; align-items:center; justify-content:center;
-    border:1px solid rgba(255,255,255,0.04);
-  }
-  .poster img{ width:100%; height:100%; object-fit:cover; display:block; border-radius:14px; }
+/* rotate while playing */
+.poster.playing{ animation: rotatePoster 12s linear infinite; transform-origin:center; }
+@keyframes rotatePoster{ from{ transform: rotateY(0deg) rotateX(0deg) } to{ transform: rotateY(360deg) rotateX(1deg) } }
 
-  /* rotate while playing */
-  .poster.playing{ animation: posterRotate 14s linear infinite; transform-origin:center; }
-  @keyframes posterRotate{ from{ transform: rotateY(0deg) rotateX(0deg) } to{ transform: rotateY(360deg) rotateX(2deg) } }
+/* poster glow */
+.poster::after{
+  content:"";
+  position:absolute; inset:0; border-radius:16px;
+  box-shadow: 0 40px 80px rgba(0,229,255,0.03) inset;
+  pointer-events:none;
+}
 
-  /* Poster floating glow */
-  .poster::after{
-    content:"";
-    position:absolute; inset:0; border-radius:14px;
-    box-shadow: 0 30px 60px rgba(0,229,255,0.03), 0 8px 40px rgba(123,108,255,0.02);
-    pointer-events:none;
-  }
+/* chips (mood quick pick) */
+.chips{ display:flex; gap:10px; margin-top:10px; flex-wrap:wrap }
+.chip{
+  padding:8px 12px; border-radius:999px; font-size:13px; color:var(--muted);
+  background: rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.02); cursor:pointer;
+}
+.chip.active{ background: linear-gradient(90deg, rgba(0,229,255,0.06), rgba(75,107,255,0.04)); color:var(--aqua); border-color: rgba(0,229,255,0.08) }
 
-  /* Right: controls area */
-  .controls-area{
-    display:flex; flex-direction:column; gap:16px;
-    align-items:stretch;
-  }
+/* right controls */
+.controls{
+  padding:18px;
+  border-radius:var(--card-radius);
+  background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+  border:1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  display:flex;flex-direction:column; gap:12px;
+}
 
-  .song-meta{
-    display:flex; align-items:center; justify-content:space-between;
-    gap:12px;
-  }
-  .title{
-    font-size:18px; color:#e9fbff; font-weight:700;
-    letter-spacing:0.2px;
-  }
-  .mood-badge{
-    padding:8px 12px; border-radius:999px; font-weight:600; font-size:13px;
-    background: linear-gradient(90deg, rgba(0,229,255,0.10), rgba(123,108,255,0.06));
-    color:var(--accent); border:1px solid rgba(0,229,255,0.06);
-  }
+/* meta */
+.meta{ display:flex; align-items:center; justify-content:space-between; gap:12px }
+.title{ font-weight:700; font-size:20px; color:#e9fbff }
+.subtitle{ font-size:13px; color:rgba(235,245,255,0.7) }
 
-  /* Visualizer canvas */
-  #visualizer{ width:100%; height:80px; border-radius:10px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); }
+/* visualizer canvas */
+#visual{ width:100%; height:84px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008)); }
 
-  /* Advanced progress bar (buffer + progress) */
-  .progress-shell{ height:12px; border-radius:12px; background:rgba(255,255,255,0.04); position:relative; overflow:hidden; }
-  .buffered{ position:absolute; left:0; top:0; bottom:0; width:0%; background: linear-gradient(90deg, rgba(123,108,255,0.18), rgba(0,229,255,0.12)); }
-  .progress-bar{ position:absolute; left:0; top:0; bottom:0; width:0%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); box-shadow: 0 6px 18px rgba(0,229,255,0.06); transition: width 0.15s linear; border-radius:12px; }
-  .progress-thumb{ position:absolute; right:calc(-9px); width:18px; height:18px; border-radius:50%; background:var(--accent); transform:translateX(-9px); box-shadow:0 6px 18px rgba(0,229,255,0.12); display:flex; align-items:center; justify-content:center; }
+/* advanced progress */
+.progress-shell{ height:14px; border-radius:12px; background:rgba(255,255,255,0.02); position:relative; overflow:hidden; margin-top:6px; cursor:pointer; }
+.buffer{ position:absolute; left:0; top:0; bottom:0; width:0; background: linear-gradient(90deg, rgba(75,107,255,0.15), rgba(0,229,255,0.12)); }
+.progress{ position:absolute; left:0; top:0; bottom:0; width:0; background: linear-gradient(90deg,var(--aqua),var(--indigo)); box-shadow: 0 8px 24px rgba(0,229,255,0.06); transition: width .12s linear; border-radius:12px; }
+.thumb{ position:absolute; right:-9px; width:18px; height:18px; border-radius:50%; background:var(--aqua); transform:translateX(-9px); box-shadow:0 8px 20px rgba(0,229,255,0.12); }
 
-  .time-row{ display:flex; justify-content:space-between; font-size:12px; color:rgba(255,255,255,0.6); margin-top:6px; }
+/* time row */
+.time-row{ display:flex; justify-content:space-between; font-size:12px; color:rgba(235,245,255,0.7); margin-top:8px }
 
-  /* Controls row */
-  .controls-row{ display:flex; gap:12px; align-items:center; justify-content:center; margin-top:6px; }
-  .btn{
-    width:52px; height:52px; border-radius:999px; border:none; cursor:pointer;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    display:inline-flex; align-items:center; justify-content:center;
-    box-shadow: 0 8px 30px rgba(3,8,20,0.6);
-    transition: transform .14s ease, box-shadow .14s ease;
-    color:var(--accent);
-    border:1px solid rgba(0,229,255,0.06);
-  }
-  .btn:hover{ transform:translateY(-6px); box-shadow:0 18px 40px rgba(3,8,20,0.7); }
-  .btn.big{ width:74px; height:74px; font-size:18px; background:linear-gradient(180deg, rgba(0,229,255,0.06), rgba(123,108,255,0.04)); color:#001a20; }
+/* controls row */
+.row{ display:flex; gap:12px; align-items:center; justify-content:center; margin-top:12px }
+.btn{ width:56px; height:56px; border-radius:999px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008)); border:1px solid rgba(255,255,255,0.03); display:flex;align-items:center;justify-content:center; cursor:pointer; color:var(--aqua); box-shadow: 0 8px 24px rgba(0,0,0,0.6); transition: transform .12s ease }
+.btn.big{ width:84px; height:84px; font-size:20px; background:linear-gradient(180deg, rgba(0,229,255,0.06), rgba(75,107,255,0.04)); color:#00181b; border:none; box-shadow: 0 18px 40px rgba(0,229,255,0.06) }
+.btn:hover{ transform:translateY(-6px) }
 
-  /* small controls row */
-  .small-actions{ display:flex; gap:10px; justify-content:space-between; align-items:center; margin-top:6px; }
-  .accent-btn{ padding:8px 12px; border-radius:999px; background:transparent; border:1px solid rgba(0,229,255,0.06); color:var(--muted); cursor:pointer; }
+/* small actions */
+.small{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:8px }
 
-  /* Camera detector modal area (inline) */
-  .camera-area{ display:flex; gap:12px; align-items:center; margin-top:8px; }
-  .camera-frame{
-    width:120px; height:88px; border-radius:10px; overflow:hidden; border:1px solid rgba(255,255,255,0.04);
-    background:#061226; display:flex; align-items:center; justify-content:center; position:relative;
-  }
-  .camera-canvas{ width:100%; height:100%; object-fit:cover; display:block; }
-  .detect-btn{ padding:8px 12px; border-radius:999px; border:none; background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#012; font-weight:700; cursor:pointer; }
+/* camera area */
+.camera-area{ display:flex; gap:12px; align-items:center; margin-top:8px; flex-wrap:wrap }
+.camera-frame{ width:140px; height:100px; border-radius:10px; overflow:hidden; background:#041424; border:1px solid rgba(255,255,255,0.03); position:relative; display:flex; align-items:center; justify-content:center }
+.camera-frame video{ width:100%; height:100%; object-fit:cover; display:block }
+.scanner{ position:absolute; inset:6px; border-radius:8px; pointer-events:none; opacity:0; transform:rotate(-90deg); transition:opacity .12s }
+.camera-frame.scanning .scanner{ opacity:1; animation: spin-count 5s linear forwards }
+@keyframes spin-count{ from{ transform:rotate(-90deg) } to{ transform:rotate(270deg) } }
 
-  /* countdown rings (scanner) */
-  .scanner{
-    position:absolute; inset:6px; border-radius:8px; pointer-events:none;
-    box-shadow: 0 0 30px rgba(0,229,255,0.06) inset;
-    background: conic-gradient(rgba(0,229,255,0.06) 0deg, rgba(0,229,255,0.001) 120deg);
-    transform:rotate(-90deg);
-    opacity:0; transition:opacity .18s;
-  }
-  .camera-frame.scanning .scanner{ opacity:1; animation: spin-count 5s linear forwards; }
-  @keyframes spin-count{ from{ transform:rotate(-90deg) } to{ transform:rotate(270deg) } }
+/* footer */
+.footer{ font-size:12px; color:rgba(235,245,255,0.6); text-align:center; margin-top:8px }
 
-  /* playlist area */
-  .playlist{
-    margin-top:6px; display:flex; gap:8px; flex-wrap:wrap;
-  }
-  .chip{ padding:8px 12px; background:rgba(255,255,255,0.02); border-radius:999px; font-size:13px; color:var(--muted); cursor:pointer; border:1px solid rgba(255,255,255,0.02); }
-  .chip.active{ background: linear-gradient(90deg, rgba(0,229,255,0.06), rgba(123,108,255,0.04)); color:var(--accent); border-color: rgba(0,229,255,0.08) }
-
-  /* footer small text */
-  .muted-small{ font-size:12px; color:rgba(255,255,255,0.45); margin-top:12px; text-align:center; }
+/* responsive fine-tune */
+@media (max-width:520px){
+  .poster{ width:240px; height:240px }
+  .logo{ width:46px; height:46px; font-size:18px }
+  .btn.big{ width:64px; height:64px }
+}
 </style>
 </head>
 <body>
+  <div class="ambient" aria-hidden="true"></div>
 
-<div class="bg-waves" aria-hidden="true"></div>
-
-<div class="wrap">
-  <!-- LEFT: Cover / poster -->
-  <div class="card" aria-label="Player card">
-    <div class="brand">
-      <div class="logo">M</div>
-      <h1>Moodify</h1>
-    </div>
-
-    <div class="poster-wrap" title="Album poster">
-      <div class="poster" id="poster">
-        <img id="posterImg" src="" alt="album poster">
-      </div>
-    </div>
-
-    <div style="display:flex;gap:12px;justify-content:space-between;align-items:center">
-      <div style="flex:1">
-        <div style="font-size:13px;color:rgba(255,255,255,0.6)">Now playing</div>
-        <div id="nowTitle" style="font-weight:700;font-size:16px;margin-top:6px;color:#eaf7ff">—</div>
-        <div id="nowArtist" style="font-size:12px;color:rgba(255,255,255,0.5)">Moodify Picks</div>
+  <div class="container" role="application" aria-label="Moodify player">
+    <!-- LEFT: poster & quick actions -->
+    <div class="card" aria-hidden="false">
+      <div class="header">
+        <div class="logo">M</div>
+        <div>
+          <div class="appname">Moodify</div>
+          <div style="font-size:12px;color:rgba(235,245,255,0.65)">Premium Neon • Aqua Theme</div>
+        </div>
       </div>
 
-      <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
-        <div class="mood-badge" id="moodBadge">MOOD</div>
-        <button class="accent-btn detect-btn" id="detectBtn" title="Detect mood from camera">Detect Mood</button>
-      </div>
-    </div>
-
-    <div style="margin-top:12px">
-      <div class="playlist" id="chips"></div>
-    </div>
-
-    <div class="muted-small">Tip: Tap <strong>Detect Mood</strong> and allow camera for 5s to auto-play a mood-song.</div>
-  </div>
-
-  <!-- RIGHT: Controls + visualizer -->
-  <div class="controls-area">
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <div class="song-meta">
-        <div class="title" id="titleText">—</div>
-        <div id="moodText" style="font-weight:700;color:var(--accent)">—</div>
+      <div class="poster-wrap">
+        <div class="poster" id="poster">
+          <img id="posterImg" src="" alt="Album poster">
+        </div>
       </div>
 
-      <canvas id="visualizer"></canvas>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:13px;color:rgba(235,245,255,0.7)">Now Playing</div>
+          <div id="nowTitle" style="font-weight:700;font-size:16px;margin-top:6px">—</div>
+          <div id="nowSub" style="font-size:12px;color:rgba(235,245,255,0.6)">Moodify picks</div>
+        </div>
 
-      <!-- progress -->
+        <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end">
+          <div id="moodBadge" style="padding:8px 12px;border-radius:999px;background:linear-gradient(90deg, rgba(0,229,255,0.06), rgba(75,107,255,0.04)); color:var(--aqua); border:1px solid rgba(0,229,255,0.06); font-weight:700">—</div>
+          <button class="chip" id="detectBtn" title="Detect mood">Detect Mood</button>
+        </div>
+      </div>
+
+      <div class="chips" id="chips"></div>
+      <div style="margin-top:8px; font-size:12px; color:rgba(235,245,255,0.6)">Tip: Allow camera then wait 5s — Moodify will pick a song for you.</div>
+    </div>
+
+    <!-- RIGHT: controls & visualizer -->
+    <div class="controls" role="region" aria-label="Controls">
+      <div class="meta">
+        <div>
+          <div class="title" id="titleText">—</div>
+          <div class="subtitle" id="artistText">Moodify</div>
+        </div>
+        <div id="moodText" style="font-weight:700;color:var(--aqua)">—</div>
+      </div>
+
+      <canvas id="visual" aria-hidden="true"></canvas>
+
       <div>
-        <div class="progress-shell" id="progressShell" role="progressbar" aria-valuemin="0" aria-valuemax="100" tabindex="0">
-          <div class="buffered" id="buffered"></div>
-          <div class="progress-bar" id="progressBar">
-            <div class="progress-thumb" id="thumb"></div>
-          </div>
+        <div class="progress-shell" id="progressShell" role="progressbar" tabindex="0" aria-valuemin="0" aria-valuemax="100">
+          <div class="buffer" id="buffered"></div>
+          <div class="progress" id="progress"><div class="thumb" id="thumb"></div></div>
         </div>
         <div class="time-row">
-          <div id="currentTime">00:00</div>
-          <div id="totalTime">00:00</div>
+          <div id="curTime">00:00</div>
+          <div id="durTime">00:00</div>
         </div>
       </div>
 
-      <!-- main controls -->
-      <div class="controls-row">
-        <button class="btn" id="prev"><span style="font-size:20px">⏮</span></button>
-        <button class="btn big" id="play"><span id="playIcon">▶</span></button>
-        <button class="btn" id="next"><span style="font-size:20px">⏭</span></button>
+      <div class="row">
+        <button class="btn" id="prevBtn" title="Previous">⏮</button>
+        <button class="btn big" id="playBtn" title="Play/Pause"><span id="playIcon">▶</span></button>
+        <button class="btn" id="nextBtn" title="Next">⏭</button>
       </div>
 
-      <div class="small-actions">
+      <div class="small">
         <div style="display:flex;gap:8px;align-items:center">
-          <button class="accent-btn" id="shuffle">🔀</button>
-          <button class="accent-btn" id="repeat">🔁</button>
-          <button class="accent-btn" id="favorite">★</button>
+          <button class="chip" id="shuffleBtn">Shuffle</button>
+          <button class="chip" id="repeatBtn">Repeat</button>
+          <button class="chip" id="favBtn" title="Favorite">❤</button>
         </div>
 
-        <div style="display:flex;gap:8px;align-items:center">
+        <div style="display:flex;align-items:center;gap:8px">
           <input id="volume" type="range" min="0" max="1" step="0.01" value="0.85" style="width:120px">
         </div>
       </div>
 
-    </div>
+      <!-- camera mini area -->
+      <div class="camera-area" style="margin-top:8px">
+        <div class="camera-frame" id="cameraFrame">
+          <video id="cameraVideo" autoplay muted playsinline></video>
+          <div class="scanner" id="scanner"></div>
+        </div>
 
-    <!-- Camera small area -->
-    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:6px">
-      <div class="camera-frame" id="cameraFrame">
-        <video id="camera" class="camera-canvas" autoplay muted playsinline></video>
-        <div class="scanner" id="scanner"></div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="chip" id="cameraBtn">Start 5s Capture</button>
+          <div style="font-size:12px;color:rgba(235,245,255,0.6)">Use front camera → 5s capture</div>
+        </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <button class="detect-btn" id="cameraDetect">Start 5s Capture</button>
-        <div style="font-size:13px;color:rgba(255,255,255,0.55)">Click to begin mood capture (5s)</div>
-      </div>
-    </div>
 
-    <div class="muted-small">Made with ♥ — Neon Glass UI • Responsive • No pink used</div>
+      <div class="footer">Made with care • Aqua neon • No pink used</div>
+    </div>
   </div>
-</div>
 
-<!-- hidden audio element -->
-<audio id="player" crossorigin="anonymous"></audio>
+  <audio id="audio" crossorigin="anonymous"></audio>
 
 <script>
-/* -------------------------
-   Config: songs (put your files here)
-   Add 7-8 songs total across moods.
-   ------------------------- */
+/* ============================
+   Replace media file names below
+   ============================ */
 const songs = [
-  // Normal mood picks (4)
   { id:0, mood:'normal', title:'Calm Morning', src:'song1.mp3', poster:'post1.jpg', bg:'bg1.jpg' },
   { id:1, mood:'normal', title:'Gentle Waves', src:'song2.mp3', poster:'post2.jpg', bg:'bg2.jpg' },
   { id:2, mood:'normal', title:'Easy Breeze', src:'song3.mp3', poster:'post3.jpg', bg:'bg3.jpg' },
   { id:3, mood:'normal', title:'Soft Light', src:'song4.mp3', poster:'post4.jpg', bg:'bg4.jpg' },
-
-  // Happy mood picks (4)
   { id:4, mood:'happy', title:'Bright Days', src:'song5.mp3', poster:'post5.jpg', bg:'bg5.jpg' },
   { id:5, mood:'happy', title:'Sun Runner', src:'song6.mp3', poster:'post6.jpg', bg:'bg6.jpg' },
   { id:6, mood:'happy', title:'Upbeat Motion', src:'song7.mp3', poster:'post7.jpg', bg:'bg7.jpg' },
   { id:7, mood:'happy', title:'High Spirits', src:'song8.mp3', poster:'post8.jpg', bg:'bg8.jpg' }
 ];
 
-/* -------------------------
-   UI elements
-   ------------------------- */
-const player = document.getElementById('player');
-const playBtn = document.getElementById('play');
+/* UI refs */
+const audio = document.getElementById('audio');
+const playBtn = document.getElementById('playBtn');
 const playIcon = document.getElementById('playIcon');
-const prevBtn = document.getElementById('prev');
-const nextBtn = document.getElementById('next');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
 const titleText = document.getElementById('titleText');
 const nowTitle = document.getElementById('nowTitle');
-const nowArtist = document.getElementById('nowArtist');
 const poster = document.getElementById('poster');
 const posterImg = document.getElementById('posterImg');
 const moodText = document.getElementById('moodText');
 const moodBadge = document.getElementById('moodBadge');
 const detectBtn = document.getElementById('detectBtn');
-const camera = document.getElementById('camera');
+const cameraVideo = document.getElementById('cameraVideo');
 const cameraFrame = document.getElementById('cameraFrame');
-const cameraDetect = document.getElementById('cameraDetect');
 const scanner = document.getElementById('scanner');
+const cameraBtn = document.getElementById('cameraBtn');
 
 const progressShell = document.getElementById('progressShell');
 const bufferedEl = document.getElementById('buffered');
-const progressBar = document.getElementById('progressBar');
+const progressEl = document.getElementById('progress');
 const thumb = document.getElementById('thumb');
-const currentTime = document.getElementById('currentTime');
-const totalTime = document.getElementById('totalTime');
+const curTime = document.getElementById('curTime');
+const durTime = document.getElementById('durTime');
 
-const visualizerCanvas = document.getElementById('visualizer');
-const ctx = visualizerCanvas.getContext('2d');
+const visual = document.getElementById('visual');
+const shuffleBtn = document.getElementById('shuffleBtn');
+const repeatBtn = document.getElementById('repeatBtn');
+const favBtn = document.getElementById('favBtn');
+const volume = document.getElementById('volume');
+const chipsBox = document.getElementById('chips');
 
-const shuffleBtn = document.getElementById('shuffle');
-const repeatBtn = document.getElementById('repeat');
-const favBtn = document.getElementById('favorite');
-const volumeEl = document.getElementById('volume');
-const chips = document.getElementById('chips');
-
-/* -------------------------
-   State
-   ------------------------- */
+/* state */
 let currentIndex = null;
 let isPlaying = false;
 let shuffle = false;
 let repeat = false;
-let favorites = new Set();
-let moodState = 0; // 0 => next capture => normal; 1 => next => happy (toggle)
-let analyser, audioCtx, sourceNode, dataArray, bufferLength;
+let favorites = new Set(JSON.parse(localStorage.getItem('moodify_favs')||'[]'));
+let moodState = 0; // toggle: 0 -> normal next, 1 -> happy next
 
-/* -------------------------
-   Helpers
-   ------------------------- */
-function formatTime(t){
-  if (!t || isNaN(t)) return '00:00';
-  const m = Math.floor(t/60);
-  const s = Math.floor(t%60);
-  return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-}
+/* helper */
+function format(t){ if(!t||isNaN(t)) return '00:00'; const m=Math.floor(t/60), s=Math.floor(t%60); return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}` }
 
-/* -------------------------
-   Playlist chips
-   ------------------------- */
+/* render chips for quick mood picks */
 function renderChips(){
-  chips.innerHTML = '';
-  const moods = ['normal','happy'];
+  chipsBox.innerHTML='';
+  const moods = [...new Set(songs.map(s=>s.mood))]; // ['normal','happy']
   moods.forEach(m=>{
-    const c = document.createElement('div');
-    c.className = 'chip';
-    c.textContent = m.toUpperCase();
-    c.onclick = ()=>{ playRandomForMood(m); markChipActive(m); };
-    c.dataset.mood = m;
-    chips.appendChild(c);
+    const d = document.createElement('div');
+    d.className='chip';
+    d.textContent = m.toUpperCase();
+    d.dataset.mood = m;
+    d.onclick = ()=>{ playRandom(m); setActiveChip(m) };
+    chipsBox.appendChild(d);
   });
 }
-function markChipActive(mood){
-  Array.from(chips.children).forEach(ch=> ch.classList.toggle('active', ch.dataset.mood===mood));
+function setActiveChip(m){
+  Array.from(chipsBox.children).forEach(c=>c.classList.toggle('active', c.dataset.mood===m));
 }
 
-/* -------------------------
-   Load + Play logic
-   ------------------------- */
-function loadTrack(obj){
-  player.src = obj.src;
-  titleText.textContent = obj.title;
-  nowTitle.textContent = obj.title;
-  posterImg.src = obj.poster || '';
-  document.body.style.backgroundImage = `url(${obj.bg || ''})`;
-  moodText.textContent = obj.mood.toUpperCase();
-  moodBadge.textContent = obj.mood.toUpperCase();
-  // small UI update
-  // mark favorite
-  favBtn.style.background = favorites.has(obj.id) ? 'linear-gradient(90deg,var(--accent),var(--accent-2))' : 'transparent';
-  // Ensure metadata handled
-  player.load();
+/* load track */
+function loadTrack(idx){
+  const track = songs[idx];
+  if(!track) return;
+  audio.src = track.src;
+  titleText.textContent = track.title;
+  nowTitle.textContent = track.title;
+  posterImg.src = track.poster || '';
+  document.body.style.backgroundImage = track.bg ? `url(${track.bg})` : '';
+  moodText.textContent = (track.mood || '').toUpperCase();
+  moodBadge.textContent = (track.mood || '').toUpperCase();
+  // favorite indicator
+  favBtn.style.background = favorites.has(track.id) ? 'linear-gradient(90deg,var(--aqua),var(--indigo))' : 'transparent';
+  audio.load();
 }
 
-/* Choose a random song for mood */
-function playRandomForMood(mood){
-  const list = songs.filter(s => s.mood === mood);
-  if (!list.length) return;
-  const idx = Math.floor(Math.random()*list.length);
-  const song = list[idx];
-  currentIndex = songs.findIndex(s=>s.id === song.id);
-  loadTrack(song);
-  playAudio();
+/* pick a random track for a mood */
+function playRandom(mood){
+  const pool = songs.filter(s=>s.mood===mood);
+  if(pool.length===0) return;
+  const pick = pool[Math.floor(Math.random()*pool.length)];
+  currentIndex = songs.findIndex(s=>s.id===pick.id);
+  loadTrack(currentIndex);
+  play();
 }
 
-/* Playback controls */
-function playAudio(){
-  const promise = player.play();
-  if (promise !== undefined){
-    promise.then(()=> {
-      isPlaying = true;
-      playIcon.textContent = '⏸';
-      poster.classList.add('playing');
-      if(!audioCtx) setupAudioCtx();
-    }).catch(e=>{
-      // auto-play blocked — show UI hint
-      console.warn('play failed', e);
-    });
-  }
+/* play / pause */
+function play(){
+  audio.play().then(()=>{ isPlaying=true; playIcon.textContent='⏸'; poster.classList.add('playing'); if(!audioCtx) setupAudio(); }).catch(()=>{ /* autoplay blocked */ });
 }
-function pauseAudio(){
-  player.pause();
-  isPlaying = false;
-  playIcon.textContent = '▶';
-  poster.classList.remove('playing');
-}
-playBtn.addEventListener('click', ()=> isPlaying ? pauseAudio() : playAudio());
+function pause(){ audio.pause(); isPlaying=false; playIcon.textContent='▶'; poster.classList.remove('playing') }
+playBtn.addEventListener('click', ()=> isPlaying? pause() : play());
 
+/* prev/next */
 prevBtn.addEventListener('click', ()=>{
-  if (shuffle) {
-    currentIndex = Math.floor(Math.random() * songs.length);
-  } else {
-    currentIndex = (currentIndex === null) ? 0 : (currentIndex - 1 + songs.length) % songs.length;
-  }
-  loadTrack(songs[currentIndex]);
-  playAudio();
+  if (shuffle) currentIndex = Math.floor(Math.random()*songs.length);
+  else currentIndex = (currentIndex===null) ? 0 : (currentIndex-1+songs.length)%songs.length;
+  loadTrack(currentIndex); play();
 });
 nextBtn.addEventListener('click', ()=>{
-  if (shuffle) {
-    currentIndex = Math.floor(Math.random() * songs.length);
-  } else {
-    currentIndex = (currentIndex === null) ? 0 : (currentIndex + 1) % songs.length;
-  }
-  loadTrack(songs[currentIndex]);
-  playAudio();
+  if (shuffle) currentIndex = Math.floor(Math.random()*songs.length);
+  else currentIndex = (currentIndex===null) ? 0 : (currentIndex+1)%songs.length;
+  loadTrack(currentIndex); play();
 });
 
-/* Shuffle / Repeat / Favorite */
-shuffleBtn.addEventListener('click', ()=> {
-  shuffle = !shuffle;
-  shuffleBtn.style.borderColor = shuffle ? 'rgba(0,229,255,0.18)' : 'rgba(0,229,255,0.06)';
-});
-repeatBtn.addEventListener('click', ()=> {
-  repeat = !repeat;
-  repeatBtn.style.borderColor = repeat ? 'rgba(0,229,255,0.18)' : 'rgba(0,229,255,0.06)';
-});
+/* shuffle/repeat/favorite */
+shuffleBtn.addEventListener('click', ()=> { shuffle = !shuffle; shuffleBtn.style.borderColor = shuffle ? 'rgba(0,229,255,0.18)' : 'rgba(255,255,255,0.02)'; });
+repeatBtn.addEventListener('click', ()=> { repeat = !repeat; repeatBtn.style.borderColor = repeat ? 'rgba(0,229,255,0.18)' : 'rgba(255,255,255,0.02)'; });
 favBtn.addEventListener('click', ()=>{
-  if (currentIndex === null) return;
+  if(currentIndex===null) return;
   const id = songs[currentIndex].id;
-  if (favorites.has(id)) favorites.delete(id); else favorites.add(id);
-  favBtn.style.background = favorites.has(id) ? 'linear-gradient(90deg,var(--accent),var(--accent-2))' : 'transparent';
+  if(favorites.has(id)) favorites.delete(id); else favorites.add(id);
+  localStorage.setItem('moodify_favs', JSON.stringify([...favorites]));
+  favBtn.style.background = favorites.has(id) ? 'linear-gradient(90deg,var(--aqua),var(--indigo))' : 'transparent';
 });
 
-/* volume */
-volumeEl.addEventListener('input', ()=> { player.volume = volumeEl.value; });
-
-/* When audio ends */
-player.addEventListener('ended', ()=>{
-  if (repeat) {
-    player.currentTime = 0; playAudio();
-  } else {
-    // play next (shuffle aware)
-    if (shuffle) nextBtn.click(); else nextBtn.click();
-  }
-});
-
-/* Update time & progress & buffered */
-player.addEventListener('timeupdate', ()=> {
-  const cur = player.currentTime || 0;
-  const dur = player.duration || 0;
-  currentTime.textContent = formatTime(cur);
-  totalTime.textContent = formatTime(dur);
-  const pct = dur ? (cur/dur)*100 : 0;
-  progressBar.style.width = pct + '%';
+/* audio time updates */
+audio.addEventListener('timeupdate', ()=>{
+  const cur = audio.currentTime || 0, dur = audio.duration || 0;
+  curTime.textContent = format(cur);
+  durTime.textContent = format(dur);
+  const pct = dur? (cur/dur)*100 : 0;
+  progressEl.style.width = pct + '%';
   // buffered
-  try{
-    if (player.buffered && player.buffered.length) {
-      const bufferedEnd = player.buffered.end(player.buffered.length-1);
-      const bpct = dur ? (bufferedEnd/dur)*100 : 0;
-      bufferedEl.style.width = bpct + '%';
+  try {
+    if (audio.buffered && audio.buffered.length) {
+      const bEnd = audio.buffered.end(audio.buffered.length-1);
+      const bp = dur ? (bEnd/dur)*100 : 0;
+      bufferedEl.style.width = bp + '%';
     }
-  }catch(e){}
+  } catch(e){}
 });
 
-/* seek by clicking progress bar */
-progressShell.addEventListener('click', (e)=>{
+/* ended behavior */
+audio.addEventListener('ended', ()=>{
+  if(repeat) { audio.currentTime = 0; play(); }
+  else nextBtn.click();
+});
+
+/* progress click/drag */
+progressShell.addEventListener('click', (e)=> {
   const rect = progressShell.getBoundingClientRect();
   const x = e.clientX - rect.left;
-  const pct = x / rect.width;
-  if (player.duration) player.currentTime = pct * player.duration;
+  const pct = x/rect.width;
+  if(audio.duration) audio.currentTime = pct * audio.duration;
 });
 
-/* drag thumb (simple) */
-let dragging = false;
-thumb.addEventListener('mousedown', ()=> dragging = true);
+/* thumb drag (desktop) */
+let dragging=false;
+thumb.addEventListener('mousedown', ()=> dragging=true);
 document.addEventListener('mousemove', (e)=>{
-  if (!dragging) return;
+  if(!dragging) return;
   const rect = progressShell.getBoundingClientRect();
   let x = e.clientX - rect.left;
   x = Math.max(0, Math.min(rect.width, x));
-  const pct = x / rect.width;
-  progressBar.style.width = (pct*100) + '%';
-  if (player.duration) player.currentTime = pct * player.duration;
+  const pct = x/rect.width;
+  progressEl.style.width = pct*100 + '%';
+  if(audio.duration) audio.currentTime = pct * audio.duration;
 });
-document.addEventListener('mouseup', ()=> dragging = false);
+document.addEventListener('mouseup', ()=> dragging=false);
 
-/* -------------------------
-   Camera Mood detection (5 seconds)
-   ------------------------- */
-let localStream = null;
-async function startCameraCountdown(){
-  // request camera
-  try{
-    if (localStream) stopCamera();
-    localStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false });
-    camera.srcObject = localStream;
-    cameraFrame.classList.add('scanning');
-    scanner.style.display = 'block';
-    camera.style.display = 'block';
-    // start 5s animation via CSS (scanner has 5s spin)
-    setTimeout(()=> {
-      cameraFrame.classList.remove('scanning');
-      // toggle mood and play random
-      const mood = (moodState === 0) ? 'normal' : 'happy';
-      moodState = 1 - moodState;
-      // UI updates
-      moodText.textContent = mood.toUpperCase();
-      moodBadge.textContent = mood.toUpperCase();
-      markChipActive(mood);
-      playRandomForMood(mood);
-      stopCamera();
-    }, 5000);
-  }catch(e){
-    console.warn('camera denied', e);
-    alert('Camera access denied. Allow camera to detect mood.');
-  }
-}
+/* volume */
+volume.addEventListener('input', ()=> audio.volume = volume.value );
 
-function stopCamera(){
-  if (localStream){
-    localStream.getTracks().forEach(t=>t.stop());
-    localStream = null;
-  }
-  camera.srcObject = null;
-  cameraFrame.classList.remove('scanning');
-}
+/* keyboard */
+document.addEventListener('keydown', (e)=>{
+  if(e.code === 'Space'){ e.preventDefault(); isPlaying? pause() : play(); }
+  if(e.code === 'ArrowRight') nextBtn.click();
+  if(e.code === 'ArrowLeft') prevBtn.click();
+});
 
-/* Buttons: Detect */
-detectBtn.addEventListener('click', ()=> startCameraCountdown());
-cameraDetect.addEventListener('click', ()=> startCameraCountdown());
+/* touch swipe on poster */
+let startX=0;
+poster.addEventListener('touchstart', (e)=> startX = e.touches[0].clientX);
+poster.addEventListener('touchend', (e)=>{
+  const dx = e.changedTouches[0].clientX - startX;
+  if(dx > 50) prevBtn.click();
+  else if(dx < -50) nextBtn.click();
+});
 
-/* -------------------------
-   Visualizer (WebAudio)
-   ------------------------- */
-function setupAudioCtx(){
-  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+/* Visualizer via WebAudio */
+let audioCtx, analyser, dataArray, bufferLen, sourceNode;
+function setupAudio(){
+  audioCtx = new (window.AudioContext||window.webkitAudioContext)();
   analyser = audioCtx.createAnalyser();
-  sourceNode = audioCtx.createMediaElementSource(player);
+  sourceNode = audioCtx.createMediaElementSource(audio);
   sourceNode.connect(analyser);
   analyser.connect(audioCtx.destination);
   analyser.fftSize = 128;
-  bufferLength = analyser.frequencyBinCount;
-  dataArray = new Uint8Array(bufferLength);
-  drawVisualizer();
+  bufferLen = analyser.frequencyBinCount;
+  dataArray = new Uint8Array(bufferLen);
+  drawViz();
 }
-
-/* draw visualizer bars */
-function drawVisualizer(){
-  requestAnimationFrame(drawVisualizer);
+const vctx = visual.getContext('2d');
+function drawViz(){
+  requestAnimationFrame(drawViz);
   if(!analyser) return;
   analyser.getByteFrequencyData(dataArray);
-  const width = visualizerCanvas.width = visualizerCanvas.clientWidth;
-  const height = visualizerCanvas.height = visualizerCanvas.clientHeight;
-  ctx.clearRect(0,0,width,height);
-  const barWidth = Math.max(2, (width / bufferLength) * 1.8);
-  let x = 0;
-  for (let i=0;i<bufferLength;i++){
-    const v = dataArray[i] / 255;
-    const barHeight = v * height * (0.95 - i/ (bufferLength*2));
-    // gradient color mapping from cyan to indigo
-    const grad = ctx.createLinearGradient(0, height - barHeight, 0, height);
-    grad.addColorStop(0, 'rgba(0,229,255,0.95)');
-    grad.addColorStop(1, 'rgba(123,108,255,0.85)');
-    ctx.fillStyle = grad;
-    ctx.fillRect(x, height - barHeight, barWidth*0.9, barHeight);
-    x += barWidth + 2;
+  const w = visual.width = visual.clientWidth;
+  const h = visual.height = visual.clientHeight;
+  vctx.clearRect(0,0,w,h);
+  const barW = Math.max(2,(w/bufferLen)*1.6);
+  let x=0;
+  for(let i=0;i<bufferLen;i++){
+    const v = dataArray[i]/255;
+    const barH = v * h * (0.92 - i/(bufferLen*2));
+    const g = vctx.createLinearGradient(0,h-barH,0,h);
+    g.addColorStop(0, 'rgba(0,229,255,0.98)');
+    g.addColorStop(1, 'rgba(75,107,255,0.95)');
+    vctx.fillStyle = g;
+    vctx.fillRect(x, h-barH, barW*0.9, barH);
+    x += barW + 3;
   }
 }
 
-/* -------------------------
-   Mood play helper (picks random song)
-   ------------------------- */
-function playRandomForMood(mood){
-  const pool = songs.filter(s=>s.mood===mood);
-  if (!pool.length) return;
-  const pick = pool[Math.floor(Math.random()*pool.length)];
-  const idx = songs.findIndex(s=>s.id===pick.id);
-  currentIndex = idx;
-  loadTrack(songs[idx]);
-  playAudio();
+/* camera mood detection (5s) with numeric countdown */
+let stream = null;
+async function startCapture(){
+  try{
+    if(stream) stopCapture();
+    stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'}, audio:false});
+    cameraVideo.srcObject = stream;
+    cameraFrame.classList.add('scanning');
+    // numeric overlay - show seconds countdown on scanner
+    const overlay = createCountdownOverlay(5);
+    cameraFrame.appendChild(overlay);
+    // CSS spinner runs 5s; after 5s determine mood
+    setTimeout(()=> {
+      cameraFrame.classList.remove('scanning');
+      overlay.remove();
+      const mood = (moodState === 0) ? 'normal' : 'happy';
+      moodState = 1 - moodState;
+      moodText.textContent = mood.toUpperCase();
+      moodBadge.textContent = mood.toUpperCase();
+      setActiveChip(mood);
+      playRandom(mood);
+      stopCapture();
+    }, 5000);
+  }catch(e){
+    alert('Camera access denied. Allow camera to use mood detect.');
+  }
+}
+function stopCapture(){
+  if(stream){
+    stream.getTracks().forEach(t=>t.stop());
+    stream = null;
+  }
+  cameraVideo.srcObject = null;
+  cameraFrame.classList.remove('scanning');
+}
+function createCountdownOverlay(seconds){
+  const el = document.createElement('div');
+  el.style.position='absolute';
+  el.style.inset='0';
+  el.style.display='flex';
+  el.style.alignItems='center';
+  el.style.justifyContent='center';
+  el.style.pointerEvents='none';
+  el.style.zIndex='10';
+  el.style.fontSize='28px';
+  el.style.fontWeight='700';
+  el.style.color='rgba(0,229,255,0.95)';
+  let s = seconds;
+  el.textContent = s;
+  const iv = setInterval(()=> {
+    s -= 1;
+    if(s<=0){ clearInterval(iv); el.remove(); return; }
+    el.textContent = s;
+  }, 1000);
+  return el;
 }
 
-/* initial UI */
+/* play random helper used by camera */
+function playRandom(mood){
+  const pool = songs.filter(s=>s.mood===mood);
+  if(pool.length===0) return;
+  const pick = pool[Math.floor(Math.random()*pool.length)];
+  currentIndex = songs.findIndex(s=>s.id===pick.id);
+  loadTrack(currentIndex);
+  play();
+}
+
+/* init UI */
 renderChips();
-markChipActive('normal');
+setActiveChip('normal');
 moodText.textContent = '—';
 moodBadge.textContent = '—';
-titleText.textContent = '—';
-nowTitle.textContent = '—';
-posterImg.src = (songs[0] && songs[0].poster) ? songs[0].poster : '';
-
-/* Preload first track in background (optional) */
-if (songs[0]) {
-  // set currentIndex to first normal by default
-  const first = songs.findIndex(s=>s.mood==='normal');
-  if (first >= 0) { currentIndex = first; loadTrack(songs[first]); pauseAudio(); }
+if(songs.length>0){
+  const firstNormal = songs.findIndex(s=>s.mood==='normal');
+  if(firstNormal>=0){ currentIndex = firstNormal; loadTrack(currentIndex); pause(); }
 }
 
-/* keyboard shortcuts */
-document.addEventListener('keydown', (e)=>{
-  if (e.code === 'Space') { e.preventDefault(); isPlaying ? pauseAudio() : playAudio(); }
-  if (e.code === 'ArrowRight') nextBtn.click();
-  if (e.code === 'ArrowLeft') prevBtn.click();
-  if (e.code === 'KeyS') shuffleBtn.click();
-});
+/* events */
+document.getElementById('detectBtn').addEventListener('click', startCapture);
+cameraBtn.addEventListener('click', startCapture);
 
-/* touch: swipe for next/prev on poster */
-let startX = 0;
-poster.addEventListener('touchstart', (e)=> startX = e.touches[0].clientX );
-poster.addEventListener('touchend', (e)=>{
-  const dx = (e.changedTouches[0].clientX - startX);
-  if (dx > 50) prevBtn.click();
-  else if (dx < -50) nextBtn.click();
-});
+/* playRandom quick picks via chips */
+function renderChips(){
+  chipsBox.innerHTML='';
+  const uniq = [...new Set(songs.map(s=>s.mood))];
+  uniq.forEach(m=>{
+    const el = document.createElement('div');
+    el.className='chip';
+    el.textContent = m.toUpperCase();
+    el.dataset.mood = m;
+    el.onclick = ()=> { playRandom(m); setActiveChip(m) };
+    chipsBox.appendChild(el);
+  });
+}
 
-/* ensure responsive canvas redraw */
-window.addEventListener('resize', ()=> {
-  visualizerCanvas.width = visualizerCanvas.clientWidth;
-  visualizerCanvas.height = visualizerCanvas.clientHeight;
-});
+/* small helpers for track load on startup */
+function loadTrack(idx){
+  if(idx==null) return;
+  const t = songs[idx];
+  audio.src = t.src;
+  titleText.textContent = t.title;
+  nowTitle.textContent = t.title;
+  posterImg.src = t.poster || '';
+  document.body.style.backgroundImage = t.bg ? `url(${t.bg})` : '';
+  moodText.textContent = (t.mood||'').toUpperCase();
+  moodBadge.textContent = (t.mood||'').toUpperCase();
+  favBtn.style.background = favorites.has(t.id) ? 'linear-gradient(90deg,var(--aqua),var(--indigo))' : 'transparent';
+  audio.load();
+}
+
+/* start visualization resize handling */
+window.addEventListener('resize', ()=> { visual.width = visual.clientWidth; visual.height = visual.clientHeight; });
+
+/* utility: playRandom direct call */
+function playRandomDirect(mood){ playRandom(mood); setActiveChip(mood); }
+
+/* expose some items for debug if needed */
+window.moodify = { songs, playRandomDirect };
+
+/* save favorites on unload */
+window.addEventListener('beforeunload', ()=> { localStorage.setItem('moodify_favs', JSON.stringify([...favorites])); });
 
 </script>
 </body>
