@@ -1,626 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Moodify — Premium Neon Glass (Aqua)</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Orbitron:wght@600&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Moodify</title>
+
 <style>
+/* ========= ROOT COLORS ========= */
 :root{
-  --bg-deep:#031024;
-  --bg-mid:#062238;
-  --glass: rgba(255,255,255,0.04);
-  --aqua: #00e5ff;            /* primary accent */
-  --indigo: #4b6bff;
-  --muted: rgba(235,245,255,0.85);
-  --card-radius:20px;
-  --glass-2: rgba(255,255,255,0.02);
+    --aqua:#00eaff;
+    --aqua-light:#7af7ff;
+    --dark-bg:#031f26;
+    --card-bg:rgba(255,255,255,0.08);
+    --white:#fff;
+    --shadow:0px 0px 25px rgba(0,255,255,0.35);
 }
 
-/* Reset & base */
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
+/* ========= GLOBAL ========= */
 body{
-  min-height:100vh;
-  font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
-  background:
-    radial-gradient(900px 400px at 10% 20%, rgba(3,18,40,0.5), transparent),
-    radial-gradient(700px 300px at 90% 80%, rgba(10,22,40,0.35), transparent),
-    linear-gradient(180deg,var(--bg-deep),var(--bg-mid));
-  color:var(--muted);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  overflow:hidden;
+    margin:0;
+    padding:0;
+    font-family: 'Poppins', sans-serif;
+    background: var(--dark-bg);
+    transition: background 0.8s ease;
+    overflow-x:hidden;
+    color:white;
 }
 
-/* animated subtle ambient lights */
-.ambient{
-  position:fixed; inset:0; pointer-events:none; z-index:0;
-  background:
-    radial-gradient(500px 300px at 80% 10%, rgba(0,229,255,0.06), transparent),
-    radial-gradient(500px 300px at 20% 90%, rgba(75,107,255,0.04), transparent);
-  filter: blur(40px) saturate(120%);
-  animation: ambientDrift 16s linear infinite;
-}
-@keyframes ambientDrift { 0%{transform:translateY(0)}50%{transform:translateY(14px)}100%{transform:translateY(0)} }
-
-/* container */
-.container{
-  width:100%;
-  max-width:980px;
-  display:grid;
-  grid-template-columns: 420px 1fr;
-  gap:26px;
-  z-index:2;
-}
-@media (max-width:900px){
-  .container{ grid-template-columns: 1fr; padding-bottom:50px; gap:18px}
+h2{
+    margin:0;
 }
 
-/* left card */
-.card{
-  background: linear-gradient(180deg,var(--glass),var(--glass-2));
-  border-radius:var(--card-radius);
-  padding:18px;
-  border: 1px solid rgba(255,255,255,0.05);
-  box-shadow: 0 10px 40px rgba(2,6,18,0.6);
-  backdrop-filter: blur(10px) saturate(110%);
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  position:relative;
-}
-
-/* header */
+/* ========= HEADER ========= */
 .header{
-  display:flex; align-items:center; gap:12px;
-}
-.logo{
-  width:54px;height:54px;border-radius:12px;
-  background: linear-gradient(135deg,var(--aqua),var(--indigo));
-  display:flex;align-items:center;justify-content:center;color:#001627;font-weight:800;font-family:Orbitron;font-size:20px;
-  box-shadow: 0 8px 26px rgba(0,229,255,0.06);
-}
-.appname{ font-weight:700; font-size:18px; color:var(--muted) }
-
-/* 3D poster area */
-.poster-wrap{ perspective:1200px; display:flex; justify-content:center; margin-top:6px }
-.poster{
-  width:320px; height:320px; border-radius:16px; position:relative;
-  transform-style:preserve-3d; transition:transform .6s cubic-bezier(.2,.9,.1,1);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-  border: 1px solid rgba(255,255,255,0.03);
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  overflow:hidden;
-}
-.poster img{ width:100%; height:100%; object-fit:cover; display:block; }
-
-/* rotate while playing */
-.poster.playing{ animation: rotatePoster 12s linear infinite; transform-origin:center; }
-@keyframes rotatePoster{ from{ transform: rotateY(0deg) rotateX(0deg) } to{ transform: rotateY(360deg) rotateX(1deg) } }
-
-/* poster glow */
-.poster::after{
-  content:"";
-  position:absolute; inset:0; border-radius:16px;
-  box-shadow: 0 40px 80px rgba(0,229,255,0.03) inset;
-  pointer-events:none;
+    padding:20px;
+    font-size:32px;
+    font-weight:700;
+    color:var(--aqua);
+    letter-spacing:1px;
 }
 
-/* chips (mood quick pick) */
-.chips{ display:flex; gap:10px; margin-top:10px; flex-wrap:wrap }
-.chip{
-  padding:8px 12px; border-radius:999px; font-size:13px; color:var(--muted);
-  background: rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.02); cursor:pointer;
+/* ========= ALBUM CARD ========= */
+.card{
+    width:90%;
+    margin:auto;
+    background:var(--card-bg);
+    border-radius:25px;
+    padding:25px;
+    text-align:center;
+    backdrop-filter:blur(12px);
+    box-shadow:var(--shadow);
+    transition:0.4s;
 }
-.chip.active{ background: linear-gradient(90deg, rgba(0,229,255,0.06), rgba(75,107,255,0.04)); color:var(--aqua); border-color: rgba(0,229,255,0.08) }
 
-/* right controls */
+.card:hover{
+    transform:scale(1.02) rotateX(4deg);
+}
+
+/* Album Image */
+.album{
+    width:100%;
+    border-radius:20px;
+    transition:0.3s;
+}
+
+/* Mood title */
+#moodText{
+    margin-top:20px;
+    font-size:24px;
+    font-weight:600;
+    color:var(--aqua);
+}
+
+/* Controls */
 .controls{
-  padding:18px;
-  border-radius:var(--card-radius);
-  background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
-  border:1px solid rgba(255,255,255,0.03);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-  backdrop-filter: blur(8px);
-  display:flex;flex-direction:column; gap:12px;
+    margin-top:20px;
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    font-size:32px;
 }
 
-/* meta */
-.meta{ display:flex; align-items:center; justify-content:space-between; gap:12px }
-.title{ font-weight:700; font-size:20px; color:#e9fbff }
-.subtitle{ font-size:13px; color:rgba(235,245,255,0.7) }
-
-/* visualizer canvas */
-#visual{ width:100%; height:84px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008)); }
-
-/* advanced progress */
-.progress-shell{ height:14px; border-radius:12px; background:rgba(255,255,255,0.02); position:relative; overflow:hidden; margin-top:6px; cursor:pointer; }
-.buffer{ position:absolute; left:0; top:0; bottom:0; width:0; background: linear-gradient(90deg, rgba(75,107,255,0.15), rgba(0,229,255,0.12)); }
-.progress{ position:absolute; left:0; top:0; bottom:0; width:0; background: linear-gradient(90deg,var(--aqua),var(--indigo)); box-shadow: 0 8px 24px rgba(0,229,255,0.06); transition: width .12s linear; border-radius:12px; }
-.thumb{ position:absolute; right:-9px; width:18px; height:18px; border-radius:50%; background:var(--aqua); transform:translateX(-9px); box-shadow:0 8px 20px rgba(0,229,255,0.12); }
-
-/* time row */
-.time-row{ display:flex; justify-content:space-between; font-size:12px; color:rgba(235,245,255,0.7); margin-top:8px }
-
-/* controls row */
-.row{ display:flex; gap:12px; align-items:center; justify-content:center; margin-top:12px }
-.btn{ width:56px; height:56px; border-radius:999px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008)); border:1px solid rgba(255,255,255,0.03); display:flex;align-items:center;justify-content:center; cursor:pointer; color:var(--aqua); box-shadow: 0 8px 24px rgba(0,0,0,0.6); transition: transform .12s ease }
-.btn.big{ width:84px; height:84px; font-size:20px; background:linear-gradient(180deg, rgba(0,229,255,0.06), rgba(75,107,255,0.04)); color:#00181b; border:none; box-shadow: 0 18px 40px rgba(0,229,255,0.06) }
-.btn:hover{ transform:translateY(-6px) }
-
-/* small actions */
-.small{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:8px }
-
-/* camera area */
-.camera-area{ display:flex; gap:12px; align-items:center; margin-top:8px; flex-wrap:wrap }
-.camera-frame{ width:140px; height:100px; border-radius:10px; overflow:hidden; background:#041424; border:1px solid rgba(255,255,255,0.03); position:relative; display:flex; align-items:center; justify-content:center }
-.camera-frame video{ width:100%; height:100%; object-fit:cover; display:block }
-.scanner{ position:absolute; inset:6px; border-radius:8px; pointer-events:none; opacity:0; transform:rotate(-90deg); transition:opacity .12s }
-.camera-frame.scanning .scanner{ opacity:1; animation: spin-count 5s linear forwards }
-@keyframes spin-count{ from{ transform:rotate(-90deg) } to{ transform:rotate(270deg) } }
-
-/* footer */
-.footer{ font-size:12px; color:rgba(235,245,255,0.6); text-align:center; margin-top:8px }
-
-/* responsive fine-tune */
-@media (max-width:520px){
-  .poster{ width:240px; height:240px }
-  .logo{ width:46px; height:46px; font-size:18px }
-  .btn.big{ width:64px; height:64px }
+.controls i{
+    color:var(--aqua-light);
+    cursor:pointer;
+    transition:0.2s;
 }
+
+.controls i:hover{
+    transform:scale(1.2);
+}
+
+/* Progress bar */
+.bar{
+    width:80%;
+    margin:20px auto;
+    height:6px;
+    background:#0b2f36;
+    border-radius:10px;
+    position:relative;
+}
+
+.bar .dot{
+    width:18px;
+    height:18px;
+    background:var(--aqua);
+    border-radius:50%;
+    position:absolute;
+    top:-6px;
+    left:20%;
+    box-shadow:var(--shadow);
+}
+
+/* ========= PLAYLIST BUTTON ========= */
+.playlist-btn{
+    width:120px;
+    margin:20px;
+    padding:12px;
+    border:2px solid var(--aqua);
+    border-radius:15px;
+    text-align:center;
+    font-size:18px;
+    color:var(--aqua);
+    cursor:pointer;
+}
+
+/* ========= BOTTOM NAV ========= */
+.bottom{
+    width:100%;
+    height:60px;
+    position:fixed;
+    bottom:0;
+    left:0;
+    border-top:1px solid rgba(255,255,255,0.2);
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    background:rgba(0,0,0,0.25);
+    backdrop-filter:blur(12px);
+}
+
+.bottom i{
+    font-size:30px;
+    color:var(--aqua-light);
+}
+
+/* ========= MOOD SELECT MODAL ========= */
+.mood-container{
+    width:100%;
+    margin-top:20px;
+    text-align:center;
+}
+
+.moods{
+    display:flex;
+    justify-content:space-around;
+    margin-top:15px;
+}
+
+.mood-btn{
+    background:var(--card-bg);
+    padding:15px;
+    border-radius:15px;
+    width:70px;
+    color:var(--aqua-light);
+    font-size:14px;
+    cursor:pointer;
+    box-shadow:0px 0px 10px rgba(0,255,255,0.2);
+}
+
+/* Camera detect */
+.camera-btn{
+    margin:auto;
+    margin-top:30px;
+    width:150px;
+    padding:18px;
+    border-radius:20px;
+    background:var(--card-bg);
+    text-align:center;
+    font-size:18px;
+    cursor:pointer;
+    color:var(--aqua-light);
+    box-shadow:var(--shadow);
+}
+
+/* ========= MOOD BACKGROUNDS ========= */
+.normal-bg{ background:#051b20; }
+.happy-bg{ background:#05383f; }
+.sad-bg{ background:#011014; }
+.chill-bg{ background:#042e2a; }
+
+/* Animated Gradient Glow */
+body.glow{
+    animation:bgPulse 6s infinite alternate;
+}
+
+@keyframes bgPulse{
+    0%{ filter:brightness(1); }
+    100%{ filter:brightness(1.25); }
+}
+
 </style>
 </head>
-<body>
-  <div class="ambient" aria-hidden="true"></div>
+<body class="normal-bg">
 
-  <div class="container" role="application" aria-label="Moodify player">
-    <!-- LEFT: poster & quick actions -->
-    <div class="card" aria-hidden="false">
-      <div class="header">
-        <div class="logo">M</div>
-        <div>
-          <div class="appname">Moodify</div>
-          <div style="font-size:12px;color:rgba(235,245,255,0.65)">Premium Neon • Aqua Theme</div>
-        </div>
-      </div>
+<div class="header">Moodify</div>
 
-      <div class="poster-wrap">
-        <div class="poster" id="poster">
-          <img id="posterImg" src="" alt="Album poster">
-        </div>
-      </div>
+<!-- Album Section -->
+<div class="card">
+    <img id="albumArt" src="https://i.postimg.cc/GtHv6Vzk/album1.jpg" class="album">
 
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div style="font-size:13px;color:rgba(235,245,255,0.7)">Now Playing</div>
-          <div id="nowTitle" style="font-weight:700;font-size:16px;margin-top:6px">—</div>
-          <div id="nowSub" style="font-size:12px;color:rgba(235,245,255,0.6)">Moodify picks</div>
-        </div>
+    <div id="moodText">Mood: Normal</div>
 
-        <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end">
-          <div id="moodBadge" style="padding:8px 12px;border-radius:999px;background:linear-gradient(90deg, rgba(0,229,255,0.06), rgba(75,107,255,0.04)); color:var(--aqua); border:1px solid rgba(0,229,255,0.06); font-weight:700">—</div>
-          <button class="chip" id="detectBtn" title="Detect mood">Detect Mood</button>
-        </div>
-      </div>
-
-      <div class="chips" id="chips"></div>
-      <div style="margin-top:8px; font-size:12px; color:rgba(235,245,255,0.6)">Tip: Allow camera then wait 5s — Moodify will pick a song for you.</div>
+    <div class="controls">
+        <i onclick="prev()">⏮</i>
+        <i onclick="playPause()">⏯</i>
+        <i onclick="next()">⏭</i>
     </div>
 
-    <!-- RIGHT: controls & visualizer -->
-    <div class="controls" role="region" aria-label="Controls">
-      <div class="meta">
-        <div>
-          <div class="title" id="titleText">—</div>
-          <div class="subtitle" id="artistText">Moodify</div>
-        </div>
-        <div id="moodText" style="font-weight:700;color:var(--aqua)">—</div>
-      </div>
-
-      <canvas id="visual" aria-hidden="true"></canvas>
-
-      <div>
-        <div class="progress-shell" id="progressShell" role="progressbar" tabindex="0" aria-valuemin="0" aria-valuemax="100">
-          <div class="buffer" id="buffered"></div>
-          <div class="progress" id="progress"><div class="thumb" id="thumb"></div></div>
-        </div>
-        <div class="time-row">
-          <div id="curTime">00:00</div>
-          <div id="durTime">00:00</div>
-        </div>
-      </div>
-
-      <div class="row">
-        <button class="btn" id="prevBtn" title="Previous">⏮</button>
-        <button class="btn big" id="playBtn" title="Play/Pause"><span id="playIcon">▶</span></button>
-        <button class="btn" id="nextBtn" title="Next">⏭</button>
-      </div>
-
-      <div class="small">
-        <div style="display:flex;gap:8px;align-items:center">
-          <button class="chip" id="shuffleBtn">Shuffle</button>
-          <button class="chip" id="repeatBtn">Repeat</button>
-          <button class="chip" id="favBtn" title="Favorite">❤</button>
-        </div>
-
-        <div style="display:flex;align-items:center;gap:8px">
-          <input id="volume" type="range" min="0" max="1" step="0.01" value="0.85" style="width:120px">
-        </div>
-      </div>
-
-      <!-- camera mini area -->
-      <div class="camera-area" style="margin-top:8px">
-        <div class="camera-frame" id="cameraFrame">
-          <video id="cameraVideo" autoplay muted playsinline></video>
-          <div class="scanner" id="scanner"></div>
-        </div>
-
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <button class="chip" id="cameraBtn">Start 5s Capture</button>
-          <div style="font-size:12px;color:rgba(235,245,255,0.6)">Use front camera → 5s capture</div>
-        </div>
-      </div>
-
-      <div class="footer">Made with care • Aqua neon • No pink used</div>
+    <div class="bar">
+        <div class="dot"></div>
     </div>
-  </div>
+</div>
 
-  <audio id="audio" crossorigin="anonymous"></audio>
+<div class="playlist-btn">Playlist</div>
+
+<!-- Mood Selection -->
+<div class="mood-container">
+
+    <div class="camera-btn" onclick="detectMood()">📷 Detect Mood</div>
+
+    <h3 style="margin-top:30px;">Select Manually</h3>
+
+    <div class="moods">
+        <div class="mood-btn" onclick="setMood('Normal')">🙂 Normal</div>
+        <div class="mood-btn" onclick="setMood('Happy')">😄 Happy</div>
+        <div class="mood-btn" onclick="setMood('Sad')">😢 Sad</div>
+        <div class="mood-btn" onclick="setMood('Chill')">😎 Chill</div>
+    </div>
+
+</div>
+
+<!-- Bottom Nav -->
+<div class="bottom">
+    <i>🙂</i>
+    <i>🎵</i>
+</div>
 
 <script>
-/* ============================
-   Replace media file names below
-   ============================ */
-const songs = [
-  { id:0, mood:'normal', title:'Calm Morning', src:'song1.mp3', poster:'post1.jpg', bg:'bg1.jpg' },
-  { id:1, mood:'normal', title:'Gentle Waves', src:'song2.mp3', poster:'post2.jpg', bg:'bg2.jpg' },
-  { id:2, mood:'normal', title:'Easy Breeze', src:'song3.mp3', poster:'post3.jpg', bg:'bg3.jpg' },
-  { id:3, mood:'normal', title:'Soft Light', src:'song4.mp3', poster:'post4.jpg', bg:'bg4.jpg' },
-  { id:4, mood:'happy', title:'Bright Days', src:'song5.mp3', poster:'post5.jpg', bg:'bg5.jpg' },
-  { id:5, mood:'happy', title:'Sun Runner', src:'song6.mp3', poster:'post6.jpg', bg:'bg6.jpg' },
-  { id:6, mood:'happy', title:'Upbeat Motion', src:'song7.mp3', poster:'post7.jpg', bg:'bg7.jpg' },
-  { id:7, mood:'happy', title:'High Spirits', src:'song8.mp3', poster:'post8.jpg', bg:'bg8.jpg' }
-];
+/* SONG DATABASE */
+const songs = {
+    Normal:[
+        {img:"https://i.postimg.cc/GtHv6Vzk/album1.jpg"},
+        {img:"https://i.postimg.cc/NG8pBkq4/album2.jpg"},
+        {img:"https://i.postimg.cc/nzV5hL0H/album3.jpg"}
+    ],
+    Happy:[
+        {img:"https://i.postimg.cc/XXfWM3vQ/happy1.jpg"},
+        {img:"https://i.postimg.cc/T1cP8CJ4/happy2.jpg"}
+    ],
+    Sad:[
+        {img:"https://i.postimg.cc/52NTXvT8/sad1.jpg"},
+        {img:"https://i.postimg.cc/sDYpznZ5/sad2.jpg"}
+    ],
+    Chill:[
+        {img:"https://i.postimg.cc/fLWKM2Yw/chill1.jpg"},
+        {img:"https://i.postimg.cc/8Cxfx7f0/chill2.jpg"}
+    ]
+};
 
-/* UI refs */
-const audio = document.getElementById('audio');
-const playBtn = document.getElementById('playBtn');
-const playIcon = document.getElementById('playIcon');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const titleText = document.getElementById('titleText');
-const nowTitle = document.getElementById('nowTitle');
-const poster = document.getElementById('poster');
-const posterImg = document.getElementById('posterImg');
-const moodText = document.getElementById('moodText');
-const moodBadge = document.getElementById('moodBadge');
-const detectBtn = document.getElementById('detectBtn');
-const cameraVideo = document.getElementById('cameraVideo');
-const cameraFrame = document.getElementById('cameraFrame');
-const scanner = document.getElementById('scanner');
-const cameraBtn = document.getElementById('cameraBtn');
+let currentMood="Normal";
 
-const progressShell = document.getElementById('progressShell');
-const bufferedEl = document.getElementById('buffered');
-const progressEl = document.getElementById('progress');
-const thumb = document.getElementById('thumb');
-const curTime = document.getElementById('curTime');
-const durTime = document.getElementById('durTime');
+/* MOOD SETTER */
+function setMood(m){
+    currentMood = m;
+    document.getElementById("moodText").innerText="Mood: "+m;
+    randomSong(m);
 
-const visual = document.getElementById('visual');
-const shuffleBtn = document.getElementById('shuffleBtn');
-const repeatBtn = document.getElementById('repeatBtn');
-const favBtn = document.getElementById('favBtn');
-const volume = document.getElementById('volume');
-const chipsBox = document.getElementById('chips');
-
-/* state */
-let currentIndex = null;
-let isPlaying = false;
-let shuffle = false;
-let repeat = false;
-let favorites = new Set(JSON.parse(localStorage.getItem('moodify_favs')||'[]'));
-let moodState = 0; // toggle: 0 -> normal next, 1 -> happy next
-
-/* helper */
-function format(t){ if(!t||isNaN(t)) return '00:00'; const m=Math.floor(t/60), s=Math.floor(t%60); return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}` }
-
-/* render chips for quick mood picks */
-function renderChips(){
-  chipsBox.innerHTML='';
-  const moods = [...new Set(songs.map(s=>s.mood))]; // ['normal','happy']
-  moods.forEach(m=>{
-    const d = document.createElement('div');
-    d.className='chip';
-    d.textContent = m.toUpperCase();
-    d.dataset.mood = m;
-    d.onclick = ()=>{ playRandom(m); setActiveChip(m) };
-    chipsBox.appendChild(d);
-  });
-}
-function setActiveChip(m){
-  Array.from(chipsBox.children).forEach(c=>c.classList.toggle('active', c.dataset.mood===m));
+    /* BG change */
+    document.body.className="";
+    document.body.classList.add(m.toLowerCase()+"-bg","glow");
 }
 
-/* load track */
-function loadTrack(idx){
-  const track = songs[idx];
-  if(!track) return;
-  audio.src = track.src;
-  titleText.textContent = track.title;
-  nowTitle.textContent = track.title;
-  posterImg.src = track.poster || '';
-  document.body.style.backgroundImage = track.bg ? `url(${track.bg})` : '';
-  moodText.textContent = (track.mood || '').toUpperCase();
-  moodBadge.textContent = (track.mood || '').toUpperCase();
-  // favorite indicator
-  favBtn.style.background = favorites.has(track.id) ? 'linear-gradient(90deg,var(--aqua),var(--indigo))' : 'transparent';
-  audio.load();
+/* RANDOM SONG PICKER */
+function randomSong(m){
+    let list = songs[m];
+    let pick = list[Math.floor(Math.random()*list.length)];
+    document.getElementById("albumArt").src = pick.img;
 }
 
-/* pick a random track for a mood */
-function playRandom(mood){
-  const pool = songs.filter(s=>s.mood===mood);
-  if(pool.length===0) return;
-  const pick = pool[Math.floor(Math.random()*pool.length)];
-  currentIndex = songs.findIndex(s=>s.id===pick.id);
-  loadTrack(currentIndex);
-  play();
+/* CAMERA MOOD SIMULATION */
+function detectMood(){
+    document.getElementById("moodText").innerText="Detecting...";
+    setTimeout(()=>{
+        setMood("Happy");
+    },3000);
 }
 
-/* play / pause */
-function play(){
-  audio.play().then(()=>{ isPlaying=true; playIcon.textContent='⏸'; poster.classList.add('playing'); if(!audioCtx) setupAudio(); }).catch(()=>{ /* autoplay blocked */ });
-}
-function pause(){ audio.pause(); isPlaying=false; playIcon.textContent='▶'; poster.classList.remove('playing') }
-playBtn.addEventListener('click', ()=> isPlaying? pause() : play());
-
-/* prev/next */
-prevBtn.addEventListener('click', ()=>{
-  if (shuffle) currentIndex = Math.floor(Math.random()*songs.length);
-  else currentIndex = (currentIndex===null) ? 0 : (currentIndex-1+songs.length)%songs.length;
-  loadTrack(currentIndex); play();
-});
-nextBtn.addEventListener('click', ()=>{
-  if (shuffle) currentIndex = Math.floor(Math.random()*songs.length);
-  else currentIndex = (currentIndex===null) ? 0 : (currentIndex+1)%songs.length;
-  loadTrack(currentIndex); play();
-});
-
-/* shuffle/repeat/favorite */
-shuffleBtn.addEventListener('click', ()=> { shuffle = !shuffle; shuffleBtn.style.borderColor = shuffle ? 'rgba(0,229,255,0.18)' : 'rgba(255,255,255,0.02)'; });
-repeatBtn.addEventListener('click', ()=> { repeat = !repeat; repeatBtn.style.borderColor = repeat ? 'rgba(0,229,255,0.18)' : 'rgba(255,255,255,0.02)'; });
-favBtn.addEventListener('click', ()=>{
-  if(currentIndex===null) return;
-  const id = songs[currentIndex].id;
-  if(favorites.has(id)) favorites.delete(id); else favorites.add(id);
-  localStorage.setItem('moodify_favs', JSON.stringify([...favorites]));
-  favBtn.style.background = favorites.has(id) ? 'linear-gradient(90deg,var(--aqua),var(--indigo))' : 'transparent';
-});
-
-/* audio time updates */
-audio.addEventListener('timeupdate', ()=>{
-  const cur = audio.currentTime || 0, dur = audio.duration || 0;
-  curTime.textContent = format(cur);
-  durTime.textContent = format(dur);
-  const pct = dur? (cur/dur)*100 : 0;
-  progressEl.style.width = pct + '%';
-  // buffered
-  try {
-    if (audio.buffered && audio.buffered.length) {
-      const bEnd = audio.buffered.end(audio.buffered.length-1);
-      const bp = dur ? (bEnd/dur)*100 : 0;
-      bufferedEl.style.width = bp + '%';
-    }
-  } catch(e){}
-});
-
-/* ended behavior */
-audio.addEventListener('ended', ()=>{
-  if(repeat) { audio.currentTime = 0; play(); }
-  else nextBtn.click();
-});
-
-/* progress click/drag */
-progressShell.addEventListener('click', (e)=> {
-  const rect = progressShell.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const pct = x/rect.width;
-  if(audio.duration) audio.currentTime = pct * audio.duration;
-});
-
-/* thumb drag (desktop) */
-let dragging=false;
-thumb.addEventListener('mousedown', ()=> dragging=true);
-document.addEventListener('mousemove', (e)=>{
-  if(!dragging) return;
-  const rect = progressShell.getBoundingClientRect();
-  let x = e.clientX - rect.left;
-  x = Math.max(0, Math.min(rect.width, x));
-  const pct = x/rect.width;
-  progressEl.style.width = pct*100 + '%';
-  if(audio.duration) audio.currentTime = pct * audio.duration;
-});
-document.addEventListener('mouseup', ()=> dragging=false);
-
-/* volume */
-volume.addEventListener('input', ()=> audio.volume = volume.value );
-
-/* keyboard */
-document.addEventListener('keydown', (e)=>{
-  if(e.code === 'Space'){ e.preventDefault(); isPlaying? pause() : play(); }
-  if(e.code === 'ArrowRight') nextBtn.click();
-  if(e.code === 'ArrowLeft') prevBtn.click();
-});
-
-/* touch swipe on poster */
-let startX=0;
-poster.addEventListener('touchstart', (e)=> startX = e.touches[0].clientX);
-poster.addEventListener('touchend', (e)=>{
-  const dx = e.changedTouches[0].clientX - startX;
-  if(dx > 50) prevBtn.click();
-  else if(dx < -50) nextBtn.click();
-});
-
-/* Visualizer via WebAudio */
-let audioCtx, analyser, dataArray, bufferLen, sourceNode;
-function setupAudio(){
-  audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-  analyser = audioCtx.createAnalyser();
-  sourceNode = audioCtx.createMediaElementSource(audio);
-  sourceNode.connect(analyser);
-  analyser.connect(audioCtx.destination);
-  analyser.fftSize = 128;
-  bufferLen = analyser.frequencyBinCount;
-  dataArray = new Uint8Array(bufferLen);
-  drawViz();
-}
-const vctx = visual.getContext('2d');
-function drawViz(){
-  requestAnimationFrame(drawViz);
-  if(!analyser) return;
-  analyser.getByteFrequencyData(dataArray);
-  const w = visual.width = visual.clientWidth;
-  const h = visual.height = visual.clientHeight;
-  vctx.clearRect(0,0,w,h);
-  const barW = Math.max(2,(w/bufferLen)*1.6);
-  let x=0;
-  for(let i=0;i<bufferLen;i++){
-    const v = dataArray[i]/255;
-    const barH = v * h * (0.92 - i/(bufferLen*2));
-    const g = vctx.createLinearGradient(0,h-barH,0,h);
-    g.addColorStop(0, 'rgba(0,229,255,0.98)');
-    g.addColorStop(1, 'rgba(75,107,255,0.95)');
-    vctx.fillStyle = g;
-    vctx.fillRect(x, h-barH, barW*0.9, barH);
-    x += barW + 3;
-  }
-}
-
-/* camera mood detection (5s) with numeric countdown */
-let stream = null;
-async function startCapture(){
-  try{
-    if(stream) stopCapture();
-    stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'}, audio:false});
-    cameraVideo.srcObject = stream;
-    cameraFrame.classList.add('scanning');
-    // numeric overlay - show seconds countdown on scanner
-    const overlay = createCountdownOverlay(5);
-    cameraFrame.appendChild(overlay);
-    // CSS spinner runs 5s; after 5s determine mood
-    setTimeout(()=> {
-      cameraFrame.classList.remove('scanning');
-      overlay.remove();
-      const mood = (moodState === 0) ? 'normal' : 'happy';
-      moodState = 1 - moodState;
-      moodText.textContent = mood.toUpperCase();
-      moodBadge.textContent = mood.toUpperCase();
-      setActiveChip(mood);
-      playRandom(mood);
-      stopCapture();
-    }, 5000);
-  }catch(e){
-    alert('Camera access denied. Allow camera to use mood detect.');
-  }
-}
-function stopCapture(){
-  if(stream){
-    stream.getTracks().forEach(t=>t.stop());
-    stream = null;
-  }
-  cameraVideo.srcObject = null;
-  cameraFrame.classList.remove('scanning');
-}
-function createCountdownOverlay(seconds){
-  const el = document.createElement('div');
-  el.style.position='absolute';
-  el.style.inset='0';
-  el.style.display='flex';
-  el.style.alignItems='center';
-  el.style.justifyContent='center';
-  el.style.pointerEvents='none';
-  el.style.zIndex='10';
-  el.style.fontSize='28px';
-  el.style.fontWeight='700';
-  el.style.color='rgba(0,229,255,0.95)';
-  let s = seconds;
-  el.textContent = s;
-  const iv = setInterval(()=> {
-    s -= 1;
-    if(s<=0){ clearInterval(iv); el.remove(); return; }
-    el.textContent = s;
-  }, 1000);
-  return el;
-}
-
-/* play random helper used by camera */
-function playRandom(mood){
-  const pool = songs.filter(s=>s.mood===mood);
-  if(pool.length===0) return;
-  const pick = pool[Math.floor(Math.random()*pool.length)];
-  currentIndex = songs.findIndex(s=>s.id===pick.id);
-  loadTrack(currentIndex);
-  play();
-}
-
-/* init UI */
-renderChips();
-setActiveChip('normal');
-moodText.textContent = '—';
-moodBadge.textContent = '—';
-if(songs.length>0){
-  const firstNormal = songs.findIndex(s=>s.mood==='normal');
-  if(firstNormal>=0){ currentIndex = firstNormal; loadTrack(currentIndex); pause(); }
-}
-
-/* events */
-document.getElementById('detectBtn').addEventListener('click', startCapture);
-cameraBtn.addEventListener('click', startCapture);
-
-/* playRandom quick picks via chips */
-function renderChips(){
-  chipsBox.innerHTML='';
-  const uniq = [...new Set(songs.map(s=>s.mood))];
-  uniq.forEach(m=>{
-    const el = document.createElement('div');
-    el.className='chip';
-    el.textContent = m.toUpperCase();
-    el.dataset.mood = m;
-    el.onclick = ()=> { playRandom(m); setActiveChip(m) };
-    chipsBox.appendChild(el);
-  });
-}
-
-/* small helpers for track load on startup */
-function loadTrack(idx){
-  if(idx==null) return;
-  const t = songs[idx];
-  audio.src = t.src;
-  titleText.textContent = t.title;
-  nowTitle.textContent = t.title;
-  posterImg.src = t.poster || '';
-  document.body.style.backgroundImage = t.bg ? `url(${t.bg})` : '';
-  moodText.textContent = (t.mood||'').toUpperCase();
-  moodBadge.textContent = (t.mood||'').toUpperCase();
-  favBtn.style.background = favorites.has(t.id) ? 'linear-gradient(90deg,var(--aqua),var(--indigo))' : 'transparent';
-  audio.load();
-}
-
-/* start visualization resize handling */
-window.addEventListener('resize', ()=> { visual.width = visual.clientWidth; visual.height = visual.clientHeight; });
-
-/* utility: playRandom direct call */
-function playRandomDirect(mood){ playRandom(mood); setActiveChip(mood); }
-
-/* expose some items for debug if needed */
-window.moodify = { songs, playRandomDirect };
-
-/* save favorites on unload */
-window.addEventListener('beforeunload', ()=> { localStorage.setItem('moodify_favs', JSON.stringify([...favorites])); });
+/* PLAYER CONTROLS */
+function playPause(){ alert("Play/Pause clicked"); }
+function next(){ randomSong(currentMood); }
+function prev(){ randomSong(currentMood); }
 
 </script>
 </body>
