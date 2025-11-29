@@ -6,302 +6,332 @@
 <title>Moodify</title>
 
 <style>
-/* ========= ROOT COLORS ========= */
-:root{
-    --aqua:#00eaff;
-    --aqua-light:#7af7ff;
-    --dark-bg:#031f26;
-    --card-bg:rgba(255,255,255,0.08);
-    --white:#fff;
-    --shadow:0px 0px 25px rgba(0,255,255,0.35);
-}
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: #003b44;
+        color: white;
+        overflow-x: hidden;
+    }
 
-/* ========= GLOBAL ========= */
-body{
-    margin:0;
-    padding:0;
-    font-family: 'Poppins', sans-serif;
-    background: var(--dark-bg);
-    transition: background 0.8s ease;
-    overflow-x:hidden;
-    color:white;
-}
+    h1 {
+        text-align: left;
+        font-size: 32px;
+        font-weight: 700;
+        padding: 25px;
+    }
 
-h2{
-    margin:0;
-}
+    .detect-card {
+        width: 86%;
+        margin: auto;
+        background: rgba(0, 65, 75, 0.8);
+        border-radius: 28px;
+        text-align: center;
+        padding: 40px 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        margin-top: 10px;
+    }
 
-/* ========= HEADER ========= */
-.header{
-    padding:20px;
-    font-size:32px;
-    font-weight:700;
-    color:var(--aqua);
-    letter-spacing:1px;
-}
+    .detect-icon {
+        font-size: 90px;
+        opacity: 0.85;
+    }
 
-/* ========= ALBUM CARD ========= */
-.card{
-    width:90%;
-    margin:auto;
-    background:var(--card-bg);
-    border-radius:25px;
-    padding:25px;
-    text-align:center;
-    backdrop-filter:blur(12px);
-    box-shadow:var(--shadow);
-    transition:0.4s;
-}
+    .detect-text {
+        margin-top: 20px;
+        font-size: 28px;
+    }
 
-.card:hover{
-    transform:scale(1.02) rotateX(4deg);
-}
+    .section-title {
+        margin-left: 20px;
+        margin-top: 40px;
+        font-size: 22px;
+        opacity: .8;
+    }
 
-/* Album Image */
-.album{
-    width:100%;
-    border-radius:20px;
-    transition:0.3s;
-}
+    .mood-grid {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 25px;
+    }
 
-/* Mood title */
-#moodText{
-    margin-top:20px;
-    font-size:24px;
-    font-weight:600;
-    color:var(--aqua);
-}
+    .mood-btn {
+        background: rgba(0, 80, 90, 0.8);
+        padding: 18px;
+        width: 70px;
+        border-radius: 16px;
+        text-align: center;
+    }
 
-/* Controls */
-.controls{
-    margin-top:20px;
-    display:flex;
-    justify-content:center;
-    gap:30px;
-    font-size:32px;
-}
+    .mood-btn p {
+        margin: 5px 0 0;
+        font-size: 14px;
+    }
 
-.controls i{
-    color:var(--aqua-light);
-    cursor:pointer;
-    transition:0.2s;
-}
+    .player-screen {
+        display: none;
+        padding-top: 20px;
+    }
 
-.controls i:hover{
-    transform:scale(1.2);
-}
+    .player-card {
+        width: 86%;
+        margin: auto;
+        background: rgba(0,0,0,0.25);
+        padding: 20px;
+        border-radius: 25px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    }
 
-/* Progress bar */
-.bar{
-    width:80%;
-    margin:20px auto;
-    height:6px;
-    background:#0b2f36;
-    border-radius:10px;
-    position:relative;
-}
+    .album-img {
+        width: 100%;
+        border-radius: 20px;
+    }
 
-.bar .dot{
-    width:18px;
-    height:18px;
-    background:var(--aqua);
-    border-radius:50%;
-    position:absolute;
-    top:-6px;
-    left:20%;
-    box-shadow:var(--shadow);
-}
+    .mood-status {
+        text-align: center;
+        font-size: 26px;
+        margin-top: 15px;
+        font-weight: 600;
+    }
 
-/* ========= PLAYLIST BUTTON ========= */
-.playlist-btn{
-    width:120px;
-    margin:20px;
-    padding:12px;
-    border:2px solid var(--aqua);
-    border-radius:15px;
-    text-align:center;
-    font-size:18px;
-    color:var(--aqua);
-    cursor:pointer;
-}
+    .player-controls {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+    }
 
-/* ========= BOTTOM NAV ========= */
-.bottom{
-    width:100%;
-    height:60px;
-    position:fixed;
-    bottom:0;
-    left:0;
-    border-top:1px solid rgba(255,255,255,0.2);
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
-    background:rgba(0,0,0,0.25);
-    backdrop-filter:blur(12px);
-}
+    .player-controls button {
+        background: #c7ecee;
+        border: none;
+        padding: 15px;
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        font-size: 20px;
+        color: #003b44;
+        font-weight: 700;
+    }
 
-.bottom i{
-    font-size:30px;
-    color:var(--aqua-light);
-}
+    .progress {
+        width: 90%;
+        margin: 20px auto;
+    }
 
-/* ========= MOOD SELECT MODAL ========= */
-.mood-container{
-    width:100%;
-    margin-top:20px;
-    text-align:center;
-}
+    .bottom-nav {
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        padding: 15px;
+        border-top: 1px solid rgba(255,255,255,0.2);
+        display: flex;
+        justify-content: space-around;
+        background: rgba(0,0,0,0.25);
+        backdrop-filter: blur(10px);
+    }
 
-.moods{
-    display:flex;
-    justify-content:space-around;
-    margin-top:15px;
-}
+    .bottom-nav img {
+        width: 40px;
+        opacity: .8;
+    }
 
-.mood-btn{
-    background:var(--card-bg);
-    padding:15px;
-    border-radius:15px;
-    width:70px;
-    color:var(--aqua-light);
-    font-size:14px;
-    cursor:pointer;
-    box-shadow:0px 0px 10px rgba(0,255,255,0.2);
-}
+    #cameraBox {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.85);
+        backdrop-filter: blur(8px);
+        color: white;
+        text-align: center;
+        padding-top: 80px;
+    }
 
-/* Camera detect */
-.camera-btn{
-    margin:auto;
-    margin-top:30px;
-    width:150px;
-    padding:18px;
-    border-radius:20px;
-    background:var(--card-bg);
-    text-align:center;
-    font-size:18px;
-    cursor:pointer;
-    color:var(--aqua-light);
-    box-shadow:var(--shadow);
-}
+    video {
+        width: 85%;
+        border-radius: 20px;
+        border: 3px solid white;
+    }
 
-/* ========= MOOD BACKGROUNDS ========= */
-.normal-bg{ background:#051b20; }
-.happy-bg{ background:#05383f; }
-.sad-bg{ background:#011014; }
-.chill-bg{ background:#042e2a; }
-
-/* Animated Gradient Glow */
-body.glow{
-    animation:bgPulse 6s infinite alternate;
-}
-
-@keyframes bgPulse{
-    0%{ filter:brightness(1); }
-    100%{ filter:brightness(1.25); }
-}
-
+    #countdown {
+        font-size: 50px;
+        margin-top: 20px;
+    }
 </style>
 </head>
-<body class="normal-bg">
 
-<div class="header">Moodify</div>
+<body>
 
-<!-- Album Section -->
-<div class="card">
-    <img id="albumArt" src="https://i.postimg.cc/GtHv6Vzk/album1.jpg" class="album">
+<h1>Moodify</h1>
 
-    <div id="moodText">Mood: Normal</div>
-
-    <div class="controls">
-        <i onclick="prev()">⏮</i>
-        <i onclick="playPause()">⏯</i>
-        <i onclick="next()">⏭</i>
+<div id="homeScreen">
+    <div class="detect-card" id="detectBtn">
+        <div class="detect-icon">📷</div>
+        <div class="detect-text">Detect Mood</div>
     </div>
 
-    <div class="bar">
-        <div class="dot"></div>
+    <h2 class="section-title">Select Manually</h2>
+
+    <div class="mood-grid">
+        <div class="mood-btn" onclick="openPlayer('Normal')">🙂<p>Normal</p></div>
+        <div class="mood-btn" onclick="openPlayer('Happy')">😊<p>Happy</p></div>
+        <div class="mood-btn" onclick="openPlayer('Sad')">😞<p>Sad</p></div>
+        <div class="mood-btn" onclick="openPlayer('Chill')">😌<p>Chill</p></div>
     </div>
 </div>
 
-<div class="playlist-btn">Playlist</div>
+<!-- PLAYER -->
+<div id="playerScreen" class="player-screen">
+    <div class="player-card">
+        <img id="albumArt" class="album-img">
+        <div id="moodDisplay" class="mood-status">Mood : Normal</div>
 
-<!-- Mood Selection -->
-<div class="mood-container">
+        <div class="player-controls">
+            <button onclick="prevSong()">⏮</button>
+            <button onclick="togglePlay()">▶</button>
+            <button onclick="nextSong()">⏭</button>
+        </div>
 
-    <div class="camera-btn" onclick="detectMood()">📷 Detect Mood</div>
-
-    <h3 style="margin-top:30px;">Select Manually</h3>
-
-    <div class="moods">
-        <div class="mood-btn" onclick="setMood('Normal')">🙂 Normal</div>
-        <div class="mood-btn" onclick="setMood('Happy')">😄 Happy</div>
-        <div class="mood-btn" onclick="setMood('Sad')">😢 Sad</div>
-        <div class="mood-btn" onclick="setMood('Chill')">😎 Chill</div>
+        <input type="range" class="progress" id="progressBar">
     </div>
-
 </div>
 
-<!-- Bottom Nav -->
-<div class="bottom">
-    <i>🙂</i>
-    <i>🎵</i>
+<div class="bottom-nav">
+    <img src="https://img.icons8.com/?id=59739&format=png" onclick="goHome()">
+    <img src="https://img.icons8.com/?id=59843&format=png" onclick="goPlayer()">
+</div>
+
+<div id="cameraBox">
+    <video id="camera" autoplay></video>
+    <div id="countdown">5</div>
 </div>
 
 <script>
-/* SONG DATABASE */
-const songs = {
-    Normal:[
-        {img:"https://i.postimg.cc/GtHv6Vzk/album1.jpg"},
-        {img:"https://i.postimg.cc/NG8pBkq4/album2.jpg"},
-        {img:"https://i.postimg.cc/nzV5hL0H/album3.jpg"}
-    ],
-    Happy:[
-        {img:"https://i.postimg.cc/XXfWM3vQ/happy1.jpg"},
-        {img:"https://i.postimg.cc/T1cP8CJ4/happy2.jpg"}
-    ],
-    Sad:[
-        {img:"https://i.postimg.cc/52NTXvT8/sad1.jpg"},
-        {img:"https://i.postimg.cc/sDYpznZ5/sad2.jpg"}
-    ],
-    Chill:[
-        {img:"https://i.postimg.cc/fLWKM2Yw/chill1.jpg"},
-        {img:"https://i.postimg.cc/8Cxfx7f0/chill2.jpg"}
-    ]
-};
 
-let currentMood="Normal";
+    /* -------------------------
+       MOOD-BASED SONG DATABASE
+    -----------------------------*/
+    let moodSongs = {
 
-/* MOOD SETTER */
-function setMood(m){
-    currentMood = m;
-    document.getElementById("moodText").innerText="Mood: "+m;
-    randomSong(m);
+        Normal: [
+            {url: "song1.mp3", img: "poster1.jpg"},
+            {url: "song2.mp3", img: "poster2.jpg"},
+            {url: "song3.mp3", img: "poster3.jpg"},
+            {url: "song4.mp3", img: "poster4.jpg"},
+        ],
 
-    /* BG change */
-    document.body.className="";
-    document.body.classList.add(m.toLowerCase()+"-bg","glow");
-}
+        Happy: [
+            {url: "happy1.mp3", img: "happyPoster1.jpg"},
+            {url: "happy2.mp3", img: "happyPoster2.jpg"},
+            {url: "happy3.mp3", img: "happyPoster3.jpg"},
+            {url: "happy4.mp3", img: "happyPoster4.jpg"},
+        ],
 
-/* RANDOM SONG PICKER */
-function randomSong(m){
-    let list = songs[m];
-    let pick = list[Math.floor(Math.random()*list.length)];
-    document.getElementById("albumArt").src = pick.img;
-}
+        Sad: [
+            {url: "sad1.mp3", img: "sadPoster1.jpg"},
+            {url: "sad2.mp3", img: "sadPoster2.jpg"},
+            {url: "sad3.mp3", img: "sadPoster3.jpg"},
+            {url: "sad4.mp3", img: "sadPoster4.jpg"},
+        ],
 
-/* CAMERA MOOD SIMULATION */
-function detectMood(){
-    document.getElementById("moodText").innerText="Detecting...";
-    setTimeout(()=>{
-        setMood("Happy");
-    },3000);
-}
+        Chill: [
+            {url: "chill1.mp3", img: "chillPoster1.jpg"},
+            {url: "chill2.mp3", img: "chillPoster2.jpg"},
+            {url: "chill3.mp3", img: "chillPoster3.jpg"},
+            {url: "chill4.mp3", img: "chillPoster4.jpg"},
+        ]
+    };
 
-/* PLAYER CONTROLS */
-function playPause(){ alert("Play/Pause clicked"); }
-function next(){ randomSong(currentMood); }
-function prev(){ randomSong(currentMood); }
+    let currentMood = "Normal";
+    let currentSong = new Audio();
+    let songIndex = 0;
 
+    function goHome() {
+        homeScreen.style.display = "block";
+        playerScreen.style.display = "none";
+    }
+
+    function goPlayer() {
+        homeScreen.style.display = "none";
+        playerScreen.style.display = "block";
+    }
+
+    /* -------------------------
+          OPEN PLAYER BY MOOD
+    -----------------------------*/
+    function openPlayer(mood) {
+        currentMood = mood;
+        songIndex = 0;
+
+        moodDisplay.innerText = "Mood : " + mood;
+
+        goPlayer();
+        playSong();
+    }
+
+    /* -------------------------
+           PLAY SELECTED SONG
+    -----------------------------*/
+    function playSong() {
+        let songList = moodSongs[currentMood];
+
+        currentSong.src = songList[songIndex].url;
+        albumArt.src = songList[songIndex].img;
+
+        currentSong.play();
+    }
+
+    function nextSong() {
+        let songList = moodSongs[currentMood];
+
+        songIndex = (songIndex + 1) % songList.length;
+        playSong();
+    }
+
+    function prevSong() {
+        let songList = moodSongs[currentMood];
+
+        songIndex = (songIndex - 1 + songList.length) % songList.length;
+        playSong();
+    }
+
+    function togglePlay() {
+        if (currentSong.paused) currentSong.play();
+        else currentSong.pause();
+    }
+
+    /* -------------------------
+           CAMERA MOOD DETECT
+    -----------------------------*/
+    detectBtn.onclick = async () => {
+        cameraBox.style.display = "block";
+
+        let stream = await navigator.mediaDevices.getUserMedia({video:true});
+        camera.srcObject = stream;
+
+        let count = 5;
+        countdown.innerText = count;
+
+        let interval = setInterval(() => {
+            count--;
+            countdown.innerText = count;
+
+            if (count === 0) {
+                clearInterval(interval);
+                stream.getTracks()[0].stop();
+                cameraBox.style.display = "none";
+
+                // Fake detection
+                let detectedMood = ["Normal","Happy","Sad","Chill"][Math.floor(Math.random()*4)];
+
+                openPlayer(detectedMood);
+            }
+
+        }, 1000);
+    };
 </script>
+
 </body>
 </html>
+
+
