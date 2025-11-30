@@ -1,95 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Moodify</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Moodify Premium</title>
 
 <style>
-/* -----------------------------------------
-   GLOBAL STYLING + PREMIUM BACKGROUND
-------------------------------------------*/
-body {
+/* ------------------- GLOBAL UI ------------------- */
+* {
     margin: 0;
-    font-family: 'Poppins', sans-serif;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #012b32, #004b59);
+    transition: background 1s ease-in-out;
     color: white;
     overflow-x: hidden;
-    transition: background 1s ease-in-out;
+    padding-bottom: 80px;
 }
 
-/* Animated gradient that changes by adding classes */
-.bg-normal {
-    background: linear-gradient(135deg, #003b44, #00515c, #008c93);
-    background-size: 400% 400%;
-    animation: gradientMove 10s ease infinite;
-}
-
-.bg-happy {
-    background: linear-gradient(135deg, rgb(76, 10, 34), rgb(101, 86, 120));
-    background-size: 400% 400%;
-    animation: gradientMove 10s ease infinite;
-}
-
-.bg-sad {
-    background: linear-gradient(135deg, #002f4d, #004e89, #001f33);
-    background-size: 400% 400%;
-    animation: gradientMove 10s ease infinite;
-}
-
-.bg-chill {
-background: linear-gradient(135deg, #ffe082, #ffca28);
-
-    background-size: 400% 400%;
-    animation: gradientMove 10s ease infinite;
-}
-
-@keyframes gradientMove {
-    0% {background-position: 0% 50%}
-    50% {background-position: 100% 50%}
-    100% {background-position: 0% 50%}
-}
-
-/* -----------------------------------------
-   UI ELEMENTS
-------------------------------------------*/
-
+/* ------------------- TITLE ------------------- */
 h1 {
-    font-size: 32px;
-    font-weight: 700;
     padding: 25px;
-    opacity: 0.9;
+    font-size: 34px;
+    color: #aef9ff;
+    font-weight: 700;
+    letter-spacing: 1px;
 }
 
+/* ------------------- DETECT CARD ------------------- */
 .detect-card {
     width: 86%;
     margin: auto;
-    background: rgba(255,255,255,0.08);
-    border-radius: 28px;
+    background: rgba(0, 195, 255, 0.15);
+    border: 1px solid rgba(0,255,255,0.3);
+    border-radius: 30px;
+    padding: 45px 20px;
     text-align: center;
-    padding: 40px 20px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
     backdrop-filter: blur(12px);
+    box-shadow: 0 8px 25px rgba(0,255,255,0.25);
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: .3s;
 }
+
 .detect-card:hover {
-    transform: scale(1.04);
+    transform: scale(1.03);
+    box-shadow: 0 10px 30px rgba(0,255,255,0.35);
 }
 
 .detect-icon {
     font-size: 95px;
-    animation: pulse 2s infinite;
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 0.7;}
-    50% { transform: scale(1.15); opacity: 1;}
-    100% { transform: scale(1); opacity: 0.7;}
+.detect-text {
+    margin-top: 15px;
+    font-size: 28px;
+    letter-spacing: 1px;
 }
 
+/* ------------------- MOOD GRID ------------------- */
 .section-title {
-    margin-left: 20px;
-    margin-top: 40px;
+    margin-left: 22px;
+    margin-top: 35px;
     font-size: 22px;
     opacity: .85;
 }
@@ -101,19 +76,28 @@ h1 {
 }
 
 .mood-btn {
-    background: rgba(255,255,255,0.1);
-    padding: 20px;
-    width: 70px;
+    width: 75px;
+    padding: 18px;
     border-radius: 18px;
     text-align: center;
-    transition: 0.3s;
+    background: rgba(0, 200, 255, 0.15);
+    border: 1px solid rgba(0,255,255,0.25);
     backdrop-filter: blur(8px);
     cursor: pointer;
-}
-.mood-btn:hover {
-    transform: translateY(-6px);
+    transition: .3s;
 }
 
+.mood-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,255,255,0.4);
+}
+
+.mood-btn p {
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+/* ------------------- PLAYER ------------------- */
 .player-screen {
     display: none;
     padding-top: 20px;
@@ -122,58 +106,69 @@ h1 {
 .player-card {
     width: 86%;
     margin: auto;
-    background: rgba(0,0,0,0.35);
-    padding: 20px;
-    border-radius: 25px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    background: rgba(0, 255, 255, 0.12);
+    border-radius: 28px;
+    padding: 22px;
     backdrop-filter: blur(10px);
-    animation: fadeIn 0.7s ease;
+    border: 1px solid rgba(0,255,255,0.25);
+    box-shadow: 0 8px 25px rgba(0,255,255,0.25);
+    animation: fadeIn .6s ease;
 }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px);}
-    to   { opacity: 1; transform: translateY(0);}
+    to { opacity: 1; transform: translateY(0);}
 }
 
-/* 3D Album Poster */
+/* Album Art 3D */
 .album-img {
     width: 100%;
-    border-radius: 20px;
-    transform: perspective(700px) rotateY(8deg);
-    transition: transform 0.5s ease;
-}
-.album-img:hover {
-    transform: perspective(700px) rotateY(0deg) scale(1.05);
+    border-radius: 22px;
+    transition: .4s;
+    transform: perspective(800px) rotateY(8deg);
+    box-shadow: 0 12px 35px rgba(0,255,255,0.35);
 }
 
+.album-img:hover {
+    transform: perspective(800px) rotateY(0deg) scale(1.03);
+    box-shadow: 0 20px 55px rgba(0,255,255,0.45);
+}
+
+/* Mood Label */
 .mood-status {
     text-align: center;
-    font-size: 28px;
-    margin-top: 15px;
+    font-size: 25px;
+    margin-top: 18px;
     font-weight: 600;
+    letter-spacing: 1px;
+    text-shadow: 0px 0px 10px cyan;
 }
 
+/* Controls */
 .player-controls {
-    margin-top: 25px;
     display: flex;
     justify-content: center;
-    gap: 25px;
+    gap: 30px;
+    margin-top: 22px;
 }
 
 .player-controls button {
-    background: rgba(255,255,255,0.9);
-    border: none;
-    padding: 15px;
-    width: 55px;
-    height: 55px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    font-size: 20px;
-    color: #004d54;
-    font-weight: 700;
-    transition: 0.3s;
+    border: none;
+    background: #aef9ff;
+    color: #003239;
+    font-size: 22px;
+    font-weight: 600;
+    box-shadow: 0 5px 20px rgba(0,255,255,0.3);
+    cursor: pointer;
+    transition: .25s;
 }
+
 .player-controls button:hover {
     transform: scale(1.12);
+    box-shadow: 0 8px 25px rgba(0,255,255,0.5);
 }
 
 .progress {
@@ -181,52 +176,56 @@ h1 {
     margin: 20px auto;
 }
 
-/* Bottom Navigation */
+/* ------------------- NAV ------------------- */
 .bottom-nav {
-    width: 100%;
     position: fixed;
     bottom: 0;
+    width: 100%;
     padding: 15px;
+    background: rgba(0,255,255,0.1);
+    border-top: 1px solid rgba(0,255,255,0.3);
+    backdrop-filter: blur(10px);
     display: flex;
     justify-content: space-around;
-    background: rgba(0,0,0,0.35);
-    backdrop-filter: blur(14px);
 }
 
 .bottom-nav img {
-    width: 40px;
-    opacity: .85;
+    width: 38px;
 }
 
-/* Camera */
+/* ------------------- CAMERA BOX ------------------- */
 #cameraBox {
-    display: none;
     position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.9);
+    display: none;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,25,30,0.9);
     backdrop-filter: blur(12px);
-    padding-top: 90px;
-    color: white;
     text-align: center;
+    padding-top: 80px;
 }
 
-video {
+#camera {
     width: 85%;
     border-radius: 20px;
-    border: 3px solid white;
+    border: 3px solid cyan;
 }
 
 #countdown {
     font-size: 55px;
-    margin-top: 25px;
+    margin-top: 20px;
+    font-weight: 700;
+    text-shadow: 0px 0px 15px cyan;
 }
+
 </style>
 </head>
 
-<body class="bg-normal">
+<body>
 
 <h1>Moodify</h1>
 
+<!-- HOME SCREEN -->
 <div id="homeScreen">
     <div class="detect-card" id="detectBtn">
         <div class="detect-icon">📷</div>
@@ -239,11 +238,11 @@ video {
         <div class="mood-btn" onclick="openPlayer('Normal')">🙂<p>Normal</p></div>
         <div class="mood-btn" onclick="openPlayer('Happy')">😊<p>Happy</p></div>
         <div class="mood-btn" onclick="openPlayer('Sad')">😞<p>Sad</p></div>
-        <div class="mood-btn" onclick="openPlayer('Chill')">🥂<p>Chill</p></div>
+        <div class="mood-btn" onclick="openPlayer('Chill')">😌<p>Chill</p></div>
     </div>
 </div>
 
-<!-- PLAYER -->
+<!-- PLAYER SCREEN -->
 <div id="playerScreen" class="player-screen">
     <div class="player-card">
         <img id="albumArt" class="album-img">
@@ -255,54 +254,48 @@ video {
             <button onclick="nextSong()">⏭</button>
         </div>
 
-        <input type="range" class="progress" id="progressBar">
+        <input type="range" id="progressBar" class="progress">
     </div>
 </div>
 
-<div class="bottom-nav">     <!-- Home Icon -->     <svg onclick="goHome()" width="35" height="35" viewBox="0 0 24 24" fill="#fff" style="cursor:pointer;">         <path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/>     </svg>
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+    <img src="https://img.icons8.com/?id=59739&format=png" onclick="goHome()">
+    <img src="https://img.icons8.com/?id=59843&format=png" onclick="goPlayer()">
+</div>
 
-<!-- Double Music Note Icon -->
-<svg onclick="goPlayer()" width="36" height="36" viewBox="0 0 24 24" fill="#fff" style="cursor:pointer;">
-    <path d="M9 3v12a3 3 0 1 0 2 2.83V7h6V3H9zm10 4v9a3 3 0 1 0 2 2.83V7h-2z"/>
-</s
-vg>
-
-
+<!-- CAMERA BOX -->
 <div id="cameraBox">
     <video id="camera" autoplay></video>
     <div id="countdown">5</div>
 </div>
 
-
 <script>
-/* SONG DATABASE (Your file format maintained) */
+/* ------------------------ SONG DB ------------------------ */
 let moodSongs = {
     Normal: [
-        {url: "song1.mp3", img: "poster1.jpg"},
-        {url: "song2.mp3", img: "poster2.jpg"},
-        {url: "song3.mp3", img: "poster3.jpg"},
-        {url: "song4.mp3", img: "poster4.jpg"},
+        {url:"song1.mp3", img:"poster1.jpg"},
+        {url:"song2.mp3", img:"poster2.jpg"},
+        {url:"song3.mp3", img:"poster3.jpg"},
+        {url:"song4.mp3", img:"poster4.jpg"},
     ],
-
     Happy: [
-        {url: "happy1.mp3", img: "happyPoster1.jpg"},
-        {url: "happy2.mp3", img: "happyPoster2.jpg"},
-        {url: "happy3.mp3", img: "happyPoster3.jpg"},
-        {url: "happy4.mp3", img: "happyPoster4.jpg"},
+        {url:"happy1.mp3", img:"happyPoster1.jpg"},
+        {url:"happy2.mp3", img:"happyPoster2.jpg"},
+        {url:"happy3.mp3", img:"happyPoster3.jpg"},
+        {url:"happy4.mp3", img:"happyPoster4.jpg"},
     ],
-
     Sad: [
-        {url: "sad1.mp3", img: "sadPoster1.jpg"},
-        {url: "sad2.mp3", img: "sadPoster2.jpg"},
-        {url: "sad3.mp3", img: "sadPoster3.jpg"},
-        {url: "sad4.mp3", img: "sadPoster4.jpg"},
+        {url:"sad1.mp3", img:"sadPoster1.jpg"},
+        {url:"sad2.mp3", img:"sadPoster2.jpg"},
+        {url:"sad3.mp3", img:"sadPoster3.jpg"},
+        {url:"sad4.mp3", img:"sadPoster4.jpg"},
     ],
-
     Chill: [
-        {url: "chill1.mp3", img: "chillPoster1.jpg"},
-        {url: "chill2.mp3", img: "chillPoster2.jpg"},
-        {url: "chill3.mp3", img: "chillPoster3.jpg"},
-        {url: "chill4.mp3", img: "chillPoster4.jpg"},
+        {url:"chill1.mp3", img:"chillPoster1.jpg"},
+        {url:"chill2.mp3", img:"chillPoster2.jpg"},
+        {url:"chill3.mp3", img:"chillPoster3.jpg"},
+        {url:"chill4.mp3", img:"chillPoster4.jpg"},
     ]
 };
 
@@ -310,61 +303,65 @@ let currentMood = "Normal";
 let currentSong = new Audio();
 let songIndex = 0;
 
-/* HOME & PLAYER SWITCH */
+/* ------------------------ NAV ------------------------ */
 function goHome() {
     homeScreen.style.display = "block";
     playerScreen.style.display = "none";
 }
+
 function goPlayer() {
     homeScreen.style.display = "none";
     playerScreen.style.display = "block";
 }
 
-/* SET BACKGROUND ACCORDING TO MOOD */
-function updateBackground(mood) {
-    document.body.className = "";  
-    document.body.classList.add("bg-" + mood.toLowerCase());
+/* ------------------------ MOOD BACKGROUND ------------------------ */
+function updateBackground(mood){
+    let bg = {
+        Normal: "linear-gradient(135deg,#01333b,#005a63)",
+        Happy:  "linear-gradient(135deg,#006b7b,#00c6ff)",
+        Sad:    "linear-gradient(135deg,#012027,#003b44)",
+        Chill:  "linear-gradient(135deg,#01565e,#00a2b0)"
+    };
+    document.body.style.background = bg[mood];
 }
 
-/* OPEN PLAYER */
-function openPlayer(mood) {
+/* ------------------------ PLAYER ------------------------ */
+function openPlayer(mood){
     currentMood = mood;
-    songIndex = 0;
-
     moodDisplay.innerText = "Mood : " + mood;
     updateBackground(mood);
 
+    songIndex = Math.floor(Math.random()*4);
     goPlayer();
     playSong();
 }
 
-/* PLAY SONG */
-function playSong() {
-    let songList = moodSongs[currentMood];
-    currentSong.src = songList[songIndex].url;
-    albumArt.src = songList[songIndex].img;
+function playSong(){
+    let list = moodSongs[currentMood];
+    albumArt.src = list[songIndex].img;
+    currentSong.src = list[songIndex].url;
     currentSong.play();
 }
 
-function nextSong() {
+function nextSong(){
     let list = moodSongs[currentMood];
     songIndex = (songIndex + 1) % list.length;
     playSong();
 }
 
-function prevSong() {
+function prevSong(){
     let list = moodSongs[currentMood];
     songIndex = (songIndex - 1 + list.length) % list.length;
     playSong();
 }
 
-function togglePlay() {
-    if (currentSong.paused) currentSong.play();
+function togglePlay(){
+    if(currentSong.paused) currentSong.play();
     else currentSong.pause();
 }
 
-/* CAMERA MOOD DETECTION */
-detectBtn.onclick = async () => {
+/* ------------------------ CAMERA DETECT ------------------------ */
+detectBtn.onclick = async ()=>{
     cameraBox.style.display = "block";
 
     let stream = await navigator.mediaDevices.getUserMedia({video:true});
@@ -373,26 +370,27 @@ detectBtn.onclick = async () => {
     let count = 5;
     countdown.innerText = count;
 
-    let interval = setInterval(() => {
+    let timer = setInterval(()=>{
         count--;
         countdown.innerText = count;
 
-        if (count === 0) {
-            clearInterval(interval);
+        if(count === 0){
+            clearInterval(timer);
             stream.getTracks()[0].stop();
             cameraBox.style.display = "none";
 
-            // Fake detection logic
-            let detectedMood = ["Normal","Happy","Sad","Chill"][Math.floor(Math.random()*4)];
-
-            openPlayer(detectedMood);
+            let detected = ["Normal","Happy","Sad","Chill"][Math.floor(Math.random()*4)];
+            openPlayer(detected);
         }
-    }, 1000);
+    },1000);
 };
 </script>
 
 </body>
 </html>
+
+
+    
 
 
 
